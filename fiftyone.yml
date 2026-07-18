@@ -1,0 +1,21 @@
+name: "@voxel51/gemma-vllm-metrics"
+type: plugin
+author: Voxel51
+version: "0.1.0"
+url: https://github.com/voxel51/fiftyone-gemma-vllm-metrics
+license: Apache-2.0
+description: >
+  Monitor a locally-served Gemma 4 model (via vLLM's OpenAI-compatible
+  server) from within the FiftyOne App. Provides a hybrid panel that
+  surfaces vLLM's own consumption metrics -- request throughput, token
+  throughput, latency histograms, GPU KV-cache usage, and queue depth --
+  with live polling refresh.
+fiftyone:
+  version: ">=0.23"
+operators:
+  - check_server_status
+  - get_vllm_metrics
+panels:
+  - gemma_vllm_metrics_panel
+secrets:
+  - GEMMA_VLLM_BASE_URL

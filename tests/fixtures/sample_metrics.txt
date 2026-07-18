@@ -1,0 +1,24 @@
+# HELP vllm:num_requests_running Number of requests in model execution batches.
+# TYPE vllm:num_requests_running gauge
+vllm:num_requests_running{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:num_requests_waiting{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:kv_cache_usage_perc{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:prompt_tokens_total{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 20.0
+vllm:generation_tokens_total{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 41.0
+vllm:time_to_first_token_seconds_bucket{engine="0",le="0.001",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:time_to_first_token_seconds_bucket{engine="0",le="1.0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:time_to_first_token_seconds_bucket{engine="0",le="2.5",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:time_to_first_token_seconds_bucket{engine="0",le="+Inf",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:time_to_first_token_seconds_count{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:time_to_first_token_seconds_sum{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 2.0726122856140137
+vllm:inter_token_latency_seconds_bucket{engine="0",le="0.01",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:inter_token_latency_seconds_bucket{engine="0",le="0.025",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 40.0
+vllm:inter_token_latency_seconds_bucket{engine="0",le="+Inf",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 40.0
+vllm:inter_token_latency_seconds_count{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 40.0
+vllm:inter_token_latency_seconds_sum{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.5669294859999354
+vllm:e2e_request_latency_seconds_bucket{engine="0",le="0.3",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:e2e_request_latency_seconds_bucket{engine="0",le="2.5",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 0.0
+vllm:e2e_request_latency_seconds_bucket{engine="0",le="5.0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:e2e_request_latency_seconds_bucket{engine="0",le="+Inf",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:e2e_request_latency_seconds_count{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 1.0
+vllm:e2e_request_latency_seconds_sum{engine="0",model_name="google/gemma-4-E4B-it-qat-w4a16-ct"} 2.639143705368042

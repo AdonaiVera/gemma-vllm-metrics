@@ -1,0 +1,10 @@
+[tool.pytest.ini_options]
+# The plugin root's __init__.py uses a relative import (`from .gemma_vllm_metrics
+# import ...`) that only resolves correctly when FiftyOne's plugin loader imports
+# it under a sanitized package name. Plain `pytest` collection would otherwise try
+# to import that file directly as a package named after this (hyphenated) directory,
+# which isn't a valid Python identifier. `importlib` import mode plus an explicit
+# testpaths scope avoids ever touching the root __init__.py during test collection.
+addopts = "--import-mode=importlib"
+testpaths = ["tests"]
+pythonpath = ["."]

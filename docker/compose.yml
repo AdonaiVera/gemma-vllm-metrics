@@ -1,0 +1,34 @@
+services:
+  vllm:
+    image: vllm/vllm-openai:${VLLM_IMAGE_TAG:-gemma4}
+    container_name: gemma-vllm
+    restart: unless-stopped
+    ports:
+      - "${VLLM_PORT:-8000}:8000"
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+    command:
+      - "--model"
+      - "${MODEL_ID:-google/gemma-4-E4B-it-qat-w4a16-ct}"
+      - "--port"
+      - "8000"
+      - "--gpu-memory-utilization"
+      - "0.90"
+      - "--max-model-len"
+      - "8192"
+      - "--max-num-seqs"
+      - "8"
+      - "--enforce-eager"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ipc: host
+
+volumes:
+  hf-cache:
