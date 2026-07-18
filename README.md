@@ -178,6 +178,33 @@ Debugging the panel end-to-end: this repo was built and verified using the
 `reload_dataset`" pitfall documented there if you extend this plugin with
 dataset-mutating operators.
 
+### VOODO gotchas found while building this panel
+
+The installed `@voxel51/voodo` version behaved differently from its own
+type declarations in a few ways worth knowing before you touch `src/`:
+
+- **The FiftyOne App never loads VOODO's CSS on its own.** It only fetches
+  the JS named in `package.json`'s `fiftyone.script`. `src/index.tsx`
+  imports `@voxel51/voodo/theme.css?inline` and injects it as a `<style>`
+  tag at module load. Without this, every VOODO component renders as
+  unstyled HTML.
+- **VOODO's CSS variables default to light-mode values** unless a `.dark`
+  class is present on an ancestor element; the FiftyOne App doesn't set one
+  itself. `GemmaMetricsPanel`'s root `Stack` carries `className="dark"`,
+  scoped to this panel only so it doesn't affect the rest of the App.
+- **The `size` prop on standalone icon components has no effect** in this
+  version (confirmed: an icon rendered at a requested `Size.Xs` still
+  measured ~940px). Icons default to filling their parent, so `StatTile`
+  wraps each icon in a small fixed-size `div` with `overflow: hidden`
+  instead of relying on `size`.
+- **`Pill`'s `icon` prop and its `isStatus` bullet have the same
+  unconstrained-size problem**, rendered internally with no way to pass a
+  size override. `StatusBadge` avoids both, using `TextBadge` plus a plain
+  `<span>` dot it fully controls instead.
+
+If a future VOODO version fixes any of these, the workarounds are harmless
+to leave in place, but worth revisiting.
+
 ## License
 
 Apache 2.0. See [LICENSE](LICENSE). Matches the license of Gemma 4 and vLLM.

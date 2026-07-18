@@ -3,12 +3,22 @@ import {
   Stack,
   Text,
   Heading,
+  Button,
+  Divider,
   Orientation,
   Spacing,
   Align,
   Justify,
+  Size,
+  Variant,
   HeadingLevel,
   TextColor,
+  TextVariant,
+  ActivityIcon,
+  TimerIcon,
+  DatabaseIcon,
+  SpeedIcon,
+  RefreshIcon,
 } from "@voxel51/voodo";
 import { usePluginClient, MetricsSnapshot, ServerStatus } from "./usePluginClient";
 import StatusBadge from "./components/StatusBadge";
@@ -31,6 +41,7 @@ export default function GemmaMetricsPanel() {
   const [metrics, setMetrics] = useState<MetricsSnapshot | null>(null);
   const [tokensPerSecHistory, setTokensPerSecHistory] = useState<number[]>([]);
   const [ttftHistory, setTtftHistory] = useState<number[]>([]);
+  const [lastPolledAt, setLastPolledAt] = useState<number | null>(null);
   const prevSnapshot = useRef<MetricsSnapshot | null>(null);
 
   // `usePluginClient()` (and the underlying usePanelEvent() it wraps) may
@@ -72,6 +83,7 @@ export default function GemmaMetricsPanel() {
         prevSnapshot.current = metricsResult;
       }
       setMetrics(metricsResult);
+      setLastPolledAt(Date.now());
     } catch (e) {
       console.error("[gemma-vllm-metrics] poll failed:", e);
     }
@@ -89,17 +101,46 @@ export default function GemmaMetricsPanel() {
     metrics?.e2e_request_latency_seconds?.avg_seconds != null
       ? metrics.e2e_request_latency_seconds.avg_seconds * 1000
       : null;
-  const gpuCachePct =
+  const kvCachePct =
     metrics?.kv_cache_usage_perc != null ? metrics.kv_cache_usage_perc * 100 : null;
   const queueDepth =
     (metrics?.num_requests_running ?? 0) + (metrics?.num_requests_waiting ?? 0);
 
   return (
-    <Stack orientation={Orientation.Column} spacing={Spacing.Lg}>
+    // VOODO's CSS variables default to light-mode values unless a `.dark`
+    // ancestor is present; the FiftyOne App itself doesn't set one. Scoped
+    // here rather than on <html>/<body> so it only affects this panel, not
+    // the rest of the App.
+    <Stack
+      className="dark"
+      orientation={Orientation.Column}
+      spacing={Spacing.Lg}
+      style={{ padding: 20 }}
+    >
       <Stack align={Align.Center} justify={Justify.Between}>
         <Heading level={HeadingLevel.H2}>Gemma vLLM Metrics</Heading>
-        <StatusBadge status={status} modelId={status?.models?.[0]} />
+        <Stack orientation={Orientation.Row} align={Align.Center} spacing={Spacing.Md}>
+          <StatusBadge status={status} modelId={status?.models?.[0]} />
+          <Button
+            size={Size.Sm}
+            variant={Variant.Secondary}
+            onClick={() => pollRef.current?.()}
+          >
+            <Stack orientation={Orientation.Row} align={Align.Center} spacing={Spacing.Xs}>
+              <div style={{ width: 12, height: 12, overflow: "hidden", flexShrink: 0 }}>
+                <RefreshIcon />
+              </div>
+              <span>Refresh</span>
+            </Stack>
+          </Button>
+        </Stack>
       </Stack>
+
+      {lastPolledAt && (
+        <Text variant={TextVariant.Caption} color={TextColor.Placeholder}>
+          {`Last updated ${new Date(lastPolledAt).toLocaleTimeString()}`}
+        </Text>
+      )}
 
       {status && !status.ok && (
         <Text color={TextColor.Destructive}>
@@ -107,18 +148,23 @@ export default function GemmaMetricsPanel() {
         </Text>
       )}
 
-      <Stack orientation={Orientation.Row} spacing={Spacing.Md}>
-        <StatTile label="Total Requests" value={fmt(totalRequests, 0)} />
-        <StatTile label="Queue Depth" value={fmt(queueDepth, 0)} />
+      <Divider label="Overview" />
+
+      <Stack orientation={Orientation.Row} spacing={Spacing.Md} style={{ flexWrap: "wrap" }}>
+        <StatTile label="Total Requests" value={fmt(totalRequests, 0)} icon={ActivityIcon} />
+        <StatTile label="Queue Depth" value={fmt(queueDepth, 0)} icon={TimerIcon} />
         <StatTile
           label="GPU KV-Cache Usage"
-          value={fmt(gpuCachePct, 1, "%")}
-          valueColor={gpuCachePct && gpuCachePct > 90 ? TextColor.Warning : undefined}
+          value={fmt(kvCachePct, 1, "%")}
+          icon={DatabaseIcon}
+          valueColor={kvCachePct && kvCachePct > 90 ? TextColor.Warning : undefined}
         />
-        <StatTile label="Avg E2E Latency" value={fmt(avgE2eMs, 0, " ms")} />
+        <StatTile label="Avg E2E Latency" value={fmt(avgE2eMs, 0, " ms")} icon={SpeedIcon} />
       </Stack>
 
-      <Stack orientation={Orientation.Row} spacing={Spacing.Md}>
+      <Divider label="Live Trends" />
+
+      <Stack orientation={Orientation.Row} spacing={Spacing.Md} style={{ flexWrap: "wrap" }}>
         <ThroughputChart tokensPerSecHistory={tokensPerSecHistory} />
         <LatencyChart ttftHistoryMs={ttftHistory} />
       </Stack>
