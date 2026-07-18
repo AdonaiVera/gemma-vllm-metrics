@@ -1,4 +1,4 @@
-// @fiftyone/plugins and @fiftyone/operators are not published to npm -- they
+// @fiftyone/plugins and @fiftyone/operators are not published to npm. They
 // only exist as globals injected by the running FiftyOne App at runtime (see
 // the `external`/`globals` mapping in vite.config.ts). These ambient
 // declarations just keep the TypeScript compiler happy about the imports;

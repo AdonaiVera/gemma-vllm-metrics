@@ -8,7 +8,7 @@ interface Props {
 }
 
 // Neither a custom `icon` nor the built-in `isStatus` bullet render with a
-// bounded size in the installed VOODO version -- both blow up to fill the
+// bounded size in the installed VOODO version; both blow up to fill the
 // panel. backgroundColor alone still conveys state, so we skip both.
 export default function StatusBadge({ status, modelId }: Props) {
   if (!status) {

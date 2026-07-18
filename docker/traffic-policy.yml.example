@@ -1,0 +1,23 @@
+on_http_request:
+  # Reject requests without an Authorization header
+  - expressions:
+      - "!('authorization' in req.headers)"
+    actions:
+      - type: custom-response
+        config:
+          status_code: 401
+          body: '{"error": "Unauthorized"}'
+          headers:
+            content-type: application/json
+  # Reject requests with the wrong bearer token
+  - expressions:
+      - "req.headers['authorization'][0] != 'Bearer __NGROK_BEARER_TOKEN__'"
+    actions:
+      - type: custom-response
+        config:
+          status_code: 401
+          body: '{"error": "Invalid token"}'
+          headers:
+            content-type: application/json
+# No catchall rule needed -- ngrok forwards to the backend by default
+# whenever none of the deny rules above matched.

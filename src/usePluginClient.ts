@@ -24,7 +24,7 @@ export interface MetricsSnapshot {
   generation_tokens_total?: number;
   num_requests_running?: number | null;
   num_requests_waiting?: number | null;
-  gpu_cache_usage_perc?: number | null;
+  kv_cache_usage_perc?: number | null;
   time_to_first_token_seconds?: HistogramSummary;
   inter_token_latency_seconds?: HistogramSummary;
   e2e_request_latency_seconds?: HistogramSummary;

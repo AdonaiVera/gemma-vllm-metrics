@@ -35,10 +35,10 @@ export default function GemmaMetricsPanel() {
 
   // `usePluginClient()` (and the underlying usePanelEvent() it wraps) may
   // not return a referentially stable value across renders. Depending on it
-  // directly in this effect would re-arm the interval -- or worse, refire
-  // immediately -- on every render, flooding the backend with requests. A
-  // ref sidesteps that: the interval is set up once on mount and always
-  // calls whatever the latest poll function is.
+  // directly in this effect would re-arm the interval, or worse, refire it
+  // immediately, on every render, flooding the backend with requests. A ref
+  // sidesteps that: the interval is set up once on mount and always calls
+  // whatever the latest poll function is.
   const pollRef = useRef<() => Promise<void>>();
 
   pollRef.current = useCallback(async () => {
@@ -90,7 +90,7 @@ export default function GemmaMetricsPanel() {
       ? metrics.e2e_request_latency_seconds.avg_seconds * 1000
       : null;
   const gpuCachePct =
-    metrics?.gpu_cache_usage_perc != null ? metrics.gpu_cache_usage_perc * 100 : null;
+    metrics?.kv_cache_usage_perc != null ? metrics.kv_cache_usage_perc * 100 : null;
   const queueDepth =
     (metrics?.num_requests_running ?? 0) + (metrics?.num_requests_waiting ?? 0);
 

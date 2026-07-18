@@ -2,6 +2,8 @@ import time
 
 import httpx
 
+from .config import metrics_url, models_url
+
 # Metrics we surface in the panel, mapped to the vLLM Prometheus series that
 # feed them. Counters/gauges are read as their latest sample value; histograms
 # are summarized as (count, sum) so the caller can derive an average.
@@ -12,7 +14,7 @@ COUNTER_METRICS = {
 GAUGE_METRICS = {
     "num_requests_running": "vllm:num_requests_running",
     "num_requests_waiting": "vllm:num_requests_waiting",
-    "gpu_cache_usage_perc": "vllm:kv_cache_usage_perc",
+    "kv_cache_usage_perc": "vllm:kv_cache_usage_perc",
 }
 HISTOGRAM_METRICS = {
     "time_to_first_token_seconds": "vllm:time_to_first_token_seconds",
@@ -24,7 +26,7 @@ HISTOGRAM_METRICS = {
 def parse_prometheus_text(text):
     """Parses Prometheus exposition-format text into {metric_name: [(labels_str, value)]}.
 
-    Deliberately minimal -- just enough to read vLLM's own metric set, not a
+    Deliberately minimal: just enough to read vLLM's own metric set, not a
     general-purpose Prometheus client.
     """
     series = {}
@@ -68,8 +70,6 @@ def _histogram_stats(series, base_name):
 
 def fetch_raw_metrics(base_url, timeout=5.0):
     """GETs vLLM's /metrics endpoint. Raises httpx exceptions on failure."""
-    from .config import metrics_url
-
     resp = httpx.get(metrics_url(base_url), timeout=timeout)
     resp.raise_for_status()
     return resp.text
@@ -113,8 +113,6 @@ def get_metrics_snapshot(base_url, timeout=5.0):
 
 def check_server_status(base_url, timeout=5.0):
     """Lightweight health check against vLLM's /v1/models endpoint."""
-    from .config import models_url
-
     try:
         resp = httpx.get(models_url(base_url), timeout=timeout)
         resp.raise_for_status()

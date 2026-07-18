@@ -6,5 +6,7 @@ node_modules/
 npm-debug.log*
 
 docker/.env
+docker/.env.ngrok
+docker/traffic-policy.yml
 
 .DS_Store

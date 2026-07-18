@@ -1,3 +1,4 @@
+import fiftyone.operators.types as types
 from fiftyone.operators.panel import Panel, PanelConfig
 
 from .config import resolve_base_url
@@ -14,12 +15,7 @@ class GemmaMetricsPanel(Panel):
             surfaces="grid",
         )
 
-    def on_load(self, ctx):
-        ctx.panel.set_data("base_url", resolve_base_url(ctx))
-
     def render(self, ctx):
-        import fiftyone.operators.types as types
-
         return types.Property(
             types.Object(),
             view=types.View(

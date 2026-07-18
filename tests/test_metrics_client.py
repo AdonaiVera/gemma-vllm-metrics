@@ -43,7 +43,7 @@ def test_summarize_gauges(sample_text):
     summary = summarize_metrics_text(sample_text)
     assert summary["num_requests_running"] == 0.0
     assert summary["num_requests_waiting"] == 0.0
-    assert summary["gpu_cache_usage_perc"] == 0.0
+    assert summary["kv_cache_usage_perc"] == 0.0
 
 
 def test_summarize_histograms_derive_avg(sample_text):

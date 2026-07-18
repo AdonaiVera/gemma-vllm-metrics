@@ -9,7 +9,7 @@ interface Props {
 
 // Minimal inline SVG sparkline. VOODO has no charting primitives, and pulling
 // in a full charting library for a handful of points isn't worth the bundle
-// weight -- this is intentionally dependency-free.
+// weight, so this is intentionally dependency-free.
 export default function Sparkline({ values, width = 160, height = 40, stroke = "currentColor" }: Props) {
   if (values.length < 2) {
     return <svg width={width} height={height} />;

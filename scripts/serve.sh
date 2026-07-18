@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Brings up vLLM's OpenAI-compatible server for the configured Gemma model.
-# The plugin never manages this process itself -- it's a separate, long-lived
-# service the panel/operators talk to over HTTP. See README for rationale.
+# The plugin never manages this process itself. It's a separate, long-lived
+# service the panel talks to over HTTP. See README for rationale.
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/../docker"
 
 if [ ! -f .env ]; then
   cp .env.example .env
-  echo "Created docker/.env from .env.example -- edit it to change MODEL_ID/VLLM_PORT."
+  echo "Created docker/.env from .env.example. Edit it to change MODEL_ID/VLLM_PORT."
 fi
 
 docker compose up -d
