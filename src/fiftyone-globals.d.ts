@@ -1,11 +1,6 @@
-// @fiftyone/plugins and @fiftyone/operators are not published to npm. They
-// only exist as globals injected by the running FiftyOne App at runtime (see
-// the `external`/`globals` mapping in vite.config.ts). These ambient
-// declarations just keep the TypeScript compiler happy about the imports;
-// the real types live in the FiftyOne App itself.
+// Ambient types for FiftyOne's runtime globals; not published to npm.
 declare module "@fiftyone/plugins" {
   export enum PluginComponentType {
-    Panel = "Panel",
     Component = "Component",
   }
   export function registerComponent(options: {
@@ -14,8 +9,6 @@ declare module "@fiftyone/plugins" {
     component: any;
     type: PluginComponentType;
     activator?: (ctx: any) => boolean;
-    surfaces?: string;
-    panelOptions?: { surfaces: string };
   }): void;
 }
 
@@ -28,10 +21,4 @@ declare module "@fiftyone/operators" {
       callback: (result: any) => void;
     }
   ) => void;
-  export function useOperatorExecutor(uri: string): {
-    execute: (params: Record<string, any>) => void;
-    result: any;
-    error: any;
-    isLoading: boolean;
-  };
 }

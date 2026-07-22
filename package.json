@@ -11,7 +11,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@voxel51/voodo": "latest",
+    "@voxel51/voodo": "0.0.40",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

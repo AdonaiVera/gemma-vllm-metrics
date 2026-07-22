@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Brings up vLLM's OpenAI-compatible server for the configured Gemma model.
-# The plugin never manages this process itself. It's a separate, long-lived
-# service the panel talks to over HTTP. See README for rationale.
+# Brings up vLLM's OpenAI-compatible server. The plugin only talks to it
+# over HTTP and never manages this process itself.
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/../docker"

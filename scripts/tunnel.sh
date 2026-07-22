@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# Exposes the local vLLM server to the internet via ngrok, gated by a bearer
-# token checked at the ngrok edge (before traffic ever reaches vLLM). The
-# same token goes in voxel-agent's "API Key" field for this provider --
-# LiteLLM already sends it as `Authorization: Bearer <key>`, so no code
-# changes are needed on either side.
+# Exposes the local vLLM server over ngrok, gated by a bearer token checked
+# at the ngrok edge before traffic reaches vLLM.
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/../docker"

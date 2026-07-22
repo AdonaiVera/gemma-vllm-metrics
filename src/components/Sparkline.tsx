@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import { useId } from "react";
 
 interface Props {
   values: number[];
@@ -7,10 +7,7 @@ interface Props {
   stroke?: string;
 }
 
-// Minimal inline SVG sparkline with a soft gradient fill under the line.
-// VOODO has no charting primitives, and pulling in a full charting library
-// for a handful of points isn't worth the bundle weight, so this is
-// intentionally dependency-free.
+// Minimal dependency-free SVG sparkline; VOODO has no charting primitives.
 export default function Sparkline({ values, width = 220, height = 56, stroke = "currentColor" }: Props) {
   const gradientId = useId();
 

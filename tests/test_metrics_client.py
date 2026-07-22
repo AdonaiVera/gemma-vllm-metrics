@@ -21,7 +21,6 @@ def sample_text():
 def test_parse_prometheus_text_skips_comments(sample_text):
     series = parse_prometheus_text(sample_text)
     assert "vllm:prompt_tokens_total" in series
-    # every parsed series has at least one (labels, value) pair
     for values in series.values():
         assert len(values) > 0
 

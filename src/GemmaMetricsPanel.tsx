@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Stack,
   Text,
@@ -23,8 +23,8 @@ import {
 import { usePluginClient, MetricsSnapshot, ServerStatus } from "./usePluginClient";
 import StatusBadge from "./components/StatusBadge";
 import StatTile from "./components/StatTile";
-import ThroughputChart from "./components/ThroughputChart";
-import LatencyChart from "./components/LatencyChart";
+import IconSlot from "./components/IconSlot";
+import MetricSparklineCard from "./components/MetricSparklineCard";
 
 const POLL_INTERVAL_MS = 5000;
 const HISTORY_LENGTH = 30;
@@ -42,14 +42,10 @@ export default function GemmaMetricsPanel() {
   const [tokensPerSecHistory, setTokensPerSecHistory] = useState<number[]>([]);
   const [ttftHistory, setTtftHistory] = useState<number[]>([]);
   const [lastPolledAt, setLastPolledAt] = useState<number | null>(null);
+  const [pollError, setPollError] = useState<string | null>(null);
   const prevSnapshot = useRef<MetricsSnapshot | null>(null);
 
-  // `usePluginClient()` (and the underlying usePanelEvent() it wraps) may
-  // not return a referentially stable value across renders. Depending on it
-  // directly in this effect would re-arm the interval, or worse, refire it
-  // immediately, on every render, flooding the backend with requests. A ref
-  // sidesteps that: the interval is set up once on mount and always calls
-  // whatever the latest poll function is.
+  // Ref avoids re-arming the poll interval when client() isn't referentially stable.
   const pollRef = useRef<() => Promise<void>>();
 
   pollRef.current = useCallback(async () => {
@@ -84,8 +80,9 @@ export default function GemmaMetricsPanel() {
       }
       setMetrics(metricsResult);
       setLastPolledAt(Date.now());
+      setPollError(null);
     } catch (e) {
-      console.error("[gemma-vllm-metrics] poll failed:", e);
+      setPollError(e instanceof Error ? e.message : String(e));
     }
   }, [client]);
 
@@ -93,7 +90,6 @@ export default function GemmaMetricsPanel() {
     pollRef.current?.();
     const id = setInterval(() => pollRef.current?.(), POLL_INTERVAL_MS);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const totalRequests = metrics?.e2e_request_latency_seconds?.count ?? null;
@@ -107,10 +103,7 @@ export default function GemmaMetricsPanel() {
     (metrics?.num_requests_running ?? 0) + (metrics?.num_requests_waiting ?? 0);
 
   return (
-    // VOODO's CSS variables default to light-mode values unless a `.dark`
-    // ancestor is present; the FiftyOne App itself doesn't set one. Scoped
-    // here rather than on <html>/<body> so it only affects this panel, not
-    // the rest of the App.
+    // Scopes VOODO's dark-mode CSS variables to just this panel.
     <Stack
       className="dark"
       orientation={Orientation.Column}
@@ -127,9 +120,7 @@ export default function GemmaMetricsPanel() {
             onClick={() => pollRef.current?.()}
           >
             <Stack orientation={Orientation.Row} align={Align.Center} spacing={Spacing.Xs}>
-              <div style={{ width: 12, height: 12, overflow: "hidden", flexShrink: 0 }}>
-                <RefreshIcon />
-              </div>
+              <IconSlot icon={RefreshIcon} size={12} />
               <span>Refresh</span>
             </Stack>
           </Button>
@@ -146,6 +137,10 @@ export default function GemmaMetricsPanel() {
         <Text color={TextColor.Destructive}>
           {status.error || "Could not reach the vLLM server. Is it running? See README for scripts/serve.sh."}
         </Text>
+      )}
+
+      {pollError && (
+        <Text color={TextColor.Destructive}>{`Refresh failed: ${pollError}`}</Text>
       )}
 
       <Divider label="Overview" />
@@ -165,8 +160,20 @@ export default function GemmaMetricsPanel() {
       <Divider label="Live Trends" />
 
       <Stack orientation={Orientation.Row} spacing={Spacing.Md} style={{ flexWrap: "wrap" }}>
-        <ThroughputChart tokensPerSecHistory={tokensPerSecHistory} />
-        <LatencyChart ttftHistoryMs={ttftHistory} />
+        <MetricSparklineCard
+          label="Generation throughput (tok/s)"
+          history={tokensPerSecHistory}
+          digits={1}
+          stroke="var(--color-semantic-info)"
+          valueColor={TextColor.Info}
+        />
+        <MetricSparklineCard
+          label="Avg time-to-first-token (ms)"
+          history={ttftHistory}
+          digits={0}
+          stroke="var(--color-semantic-warning)"
+          valueColor={TextColor.Warning}
+        />
       </Stack>
     </Stack>
   );

@@ -1,163 +1,151 @@
 # Gemma vLLM Metrics: FiftyOne Plugin
 
-A [FiftyOne](https://github.com/voxel51/fiftyone) plugin for monitoring a
-locally-served [Gemma 4](https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/)
-model. It gives you a real, local OpenAI-compatible inference endpoint (via
-[vLLM](https://github.com/vllm-project/vllm)) that you can point any
-OpenAI-compatible client at, plus a hybrid panel inside the FiftyOne App that
-surfaces vLLM's own consumption metrics live: request volume, token
-throughput, latency, GPU KV-cache usage, and queue depth.
+A [FiftyOne](https://github.com/voxel51/fiftyone) plugin that watches a
+[Gemma 4](https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/)
+model you serve yourself. It gives you a real, local inference endpoint
+(via [vLLM](https://github.com/vllm-project/vllm)) that any standard chat
+client can talk to, plus a panel inside the FiftyOne App that shows the
+server's own live numbers: request volume, token throughput, latency, GPU
+cache usage, and queue depth.
 
-## Architecture
+![Gemma vLLM Metrics panel](figure/10_gemma_metrics_panel_live.png)
 
-```
-┌────────────────────┐                    ┌───────────────────────┐
-│ docker compose     │                    │ any OpenAI-compatible │
-│ vllm/vllm-openai   │                    │ client (your agent,   │
-│ serving Gemma 4    │  ◄──── HTTP ────►  │ curl, the SDK, etc.)  │
-│ :8000/v1  /metrics │                    │                       │
-└────────────────────┘                    └───────────────────────┘
+## How it works
 
-          │ /v1/models, /metrics
-          ▼
-┌─────────────────────────────────────────────────────────────┐
-│ FiftyOne plugin (this repo)                                 │
-│ gemma_vllm_metrics/metrics_client.py: HTTP client for vLLM  │
-│ gemma_vllm_metrics/panel.py: hybrid Panel, status + metrics │
-│ src/*.tsx: React/VOODO frontend                             │
-└─────────────────────────────────────────────────────────────┘
-```
+vLLM serves the model and already exposes a Prometheus `/metrics` endpoint
+with everything worth watching, so this plugin adds no logging of its own
+and no database. It just polls that endpoint and renders what's already
+there.
 
-The plugin never manages the vLLM process itself. FiftyOne operators (which
-`Panel` is a subclass of) execute per-invocation, not as daemons, so they're
-the wrong tool for owning a long-lived server. vLLM is brought up separately
-via `docker compose` (see [`scripts/serve.sh`](scripts/serve.sh)), and the
-plugin's `GemmaMetricsPanel` is purely an HTTP client against it: it checks
-server status, polls `/metrics`, and renders both. This mirrors the pattern
-used by [`fiftyone-vllm`](https://github.com/Burhan-Q/fiftyone-vllm).
+Two different things talk to the same vLLM server. Your chat client sends
+it real chat requests, and this plugin separately polls its `/metrics`
+endpoint to show what those requests are costing. On the plugin side, a
+Python backend
+([`gemma_vllm_metrics/panel.py`](gemma_vllm_metrics/panel.py)) polls vLLM
+through
+[`gemma_vllm_metrics/metrics_client.py`](gemma_vllm_metrics/metrics_client.py),
+and a React frontend ([`src/`](src)) renders the result as the panel shown
+above.
 
-All metrics come straight from vLLM's own built-in Prometheus `/metrics`
-endpoint (`prompt_tokens_total`, `generation_tokens_total`,
-`time_to_first_token_seconds`, `inter_token_latency_seconds`,
-`e2e_request_latency_seconds`, `num_requests_running`,
-`num_requests_waiting`, `kv_cache_usage_perc`). There's no custom
-instrumentation or metrics database; see
-[`gemma_vllm_metrics/metrics_client.py`](gemma_vllm_metrics/metrics_client.py).
+The plugin never manages the vLLM process itself. FiftyOne panels run per
+request, not as a background daemon, so they're the wrong place to own a
+long lived server. vLLM comes up separately through `docker compose`
+([`scripts/serve.sh`](scripts/serve.sh)), and the plugin is purely an HTTP
+client against it: check status, poll `/metrics`, render both.
 
-Metric names can drift between vLLM versions. The client was written and
-tested against a real captured `/metrics` response (see
-[`tests/fixtures/sample_metrics.txt`](tests/fixtures/sample_metrics.txt)). If
-you bump the vLLM image tag, diff a fresh `curl localhost:8000/metrics`
+Metric names can drift between vLLM versions. The client is tested against
+a real captured response in
+[`tests/fixtures/sample_metrics.txt`](tests/fixtures/sample_metrics.txt).
+If you bump the vLLM image tag, diff a fresh `curl localhost:8000/metrics`
 against that fixture before trusting the panel's numbers.
 
-## Why not the full-precision model?
+## The model
 
-Full BF16 Gemma 4 E4B is about 16GB of weights, which doesn't fit on a 12GB
-consumer GPU alongside its KV cache. Instead this defaults to Google's own
-[QAT](https://blog.google/innovation-and-ai/technology/developers-tools/quantization-aware-training-gemma-4/)
-(quantization-aware training) checkpoint,
-[`google/gemma-4-E4B-it-qat-w4a16-ct`](https://huggingface.co/google/gemma-4-E4B-it-qat-w4a16-ct):
-real weights from an official source, about 4GB, serialized in vLLM-native
-compressed-tensors W4A16 format (no `--quantization` flag needed; vLLM
-auto-detects it from the checkpoint config). Drop to
-`google/gemma-4-E2B-it-qat-w4a16-ct` in `docker/.env` for even more headroom.
+This defaults to Google's own quantized checkpoint,
+[`google/gemma-4-E2B-it-qat-w4a16-ct`](https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct),
+which fits comfortably on a single 12GB consumer GPU alongside its cache
+and tool calling support. The larger E4B checkpoint needs more headroom
+than that leaves free; swap `MODEL_ID` in `docker/.env` to it if you have
+more VRAM.
 
-Even quantized, a single consumer GPU has almost no memory slack once you
-account for weights, KV cache, and CUDA graph capture. `docker/compose.yml`
-also pins `--max-model-len 8192`, `--max-num-seqs 8`, and `--enforce-eager`
-(disables CUDA graphs, trading some throughput for the memory their capture
-buffers would otherwise need). vLLM's defaults (256 concurrent sequences,
-full context length, graph capture) are sized for multi-GPU production
-serving and will OOM on a 12GB card. If you have more VRAM, raising
-`--max-num-seqs` and dropping `--enforce-eager` will improve throughput.
+A few flags in [`docker/compose.yml`](docker/compose.yml) are worth
+knowing if you're tuning this for your own hardware:
+
+- `--enforce-eager` trades some throughput for memory, since a 12GB card
+  has little room left for CUDA graph capture.
+- `--max-num-seqs 1` with `--max-model-len 65536` trades concurrency for a
+  longer context window, since this plugin is built for one interactive
+  user at a time, not several.
+- `--enable-auto-tool-choice --tool-call-parser gemma4` is required
+  because most agent frameworks send a `tools` list with
+  `tool_choice="auto"` on every request, and vLLM refuses that otherwise.
+
+If you have more VRAM, raise `--max-num-seqs` and drop `--enforce-eager`
+for better throughput.
 
 ## Prerequisites
 
 - Docker with the NVIDIA Container Toolkit (`docker info | grep -i nvidia`
-  should show `nvidia` as an available/default runtime)
-- An NVIDIA GPU with CUDA 12.9 or newer driver support (check with
-  `nvidia-smi`). Gemma 4 needs a newer CUDA runtime than most
-  `vllm/vllm-openai:latest` images assume today; this repo pins the `gemma4`
-  image tag, which targets CUDA 12.9.
-- About 10GB free disk for the model weights and vLLM's Docker image
-- Python 3.10+ with `fiftyone` installed, for the plugin side
-- [ngrok](https://ngrok.com/download) and a free account, only if exposing
-  the endpoint outside this machine (see
-  [below](#exposing-the-endpoint-on-the-internet))
+  should show `nvidia` as an available runtime)
+- An NVIDIA GPU with a CUDA 12.9 or newer driver (check with `nvidia-smi`);
+  this repo pins the `gemma4` image tag, which targets that
+- About 10GB free disk for the model weights and the vLLM image
+- Python 3.10+ with `fiftyone` installed
+- [ngrok](https://ngrok.com/download), only if exposing the endpoint
+  outside this machine
 
 ## Quickstart
 
-1. **Serve the model:**
+Serve the model:
 
-   ```bash
-   ./scripts/serve.sh
-   ```
+```bash
+./scripts/serve.sh
+```
 
-   This copies `docker/.env.example` to `docker/.env` on first run, brings up
-   `vllm/vllm-openai` via `docker compose`, and polls `/v1/models` until
-   ready. First run downloads the model weights, so it can take a few
-   minutes.
+This copies `docker/.env.example` to `docker/.env` on first run, brings up
+vLLM, and waits for `/v1/models` to answer. First run also downloads the
+model weights, so it can take a few minutes.
 
-2. **Install the plugin** into your FiftyOne plugins directory:
+Install the plugin into your FiftyOne plugins directory:
 
-   ```bash
-   PLUGINS_DIR=$(python -c "import fiftyone as fo; print(fo.config.plugins_dir)")
-   ln -s "$(pwd)" "$PLUGINS_DIR/gemma_vllm_metrics"
-   ```
+```bash
+PLUGINS_DIR=$(python -c "import fiftyone as fo; print(fo.config.plugins_dir)")
+ln -s "$(pwd)" "$PLUGINS_DIR/gemma_vllm_metrics"
+```
 
-3. **Launch the FiftyOne App** and open the **Gemma vLLM Metrics** panel
-   from the `+ New panel` menu.
+Launch the FiftyOne App and open the **Gemma vLLM Metrics** panel from the
+`+ New panel` menu.
 
-4. **Point any OpenAI-compatible client at the endpoint:**
+Point any standard chat client at the endpoint:
 
-   ```
-   Base URL:  http://localhost:8000/v1
-   Model:     google/gemma-4-E4B-it-qat-w4a16-ct   (or your MODEL_ID)
-   API key:   not required for local vLLM (any placeholder value)
-   ```
+```
+Base URL:  http://localhost:8000/v1
+Model:     google/gemma-4-E2B-it-qat-w4a16-ct   (or your own MODEL_ID)
+API key:   not required locally, any placeholder value works
+```
+
+Here's that same endpoint added as a custom provider in FiftyOne's own
+Agent Settings:
+
+![Custom provider pointed at the local vLLM endpoint](figure/06_add_provider_form_filled.png)
 
 ## Exposing the endpoint on the internet
 
-If the client (e.g. voxel-agent) isn't running on this machine, tunnel the
-vLLM port with [ngrok](https://ngrok.com/download). This needs a free
-account and authtoken; run `ngrok config add-authtoken <token>` once, then:
+If your client isn't running on this machine, tunnel the vLLM port with
+ngrok. This needs a free account and an authtoken; run
+`ngrok config add-authtoken <token>` once, then:
 
 ```bash
 ./scripts/tunnel.sh
 ```
 
 This generates a random bearer token on first run (saved to
-`docker/.env.ngrok`, gitignored) and starts an ngrok tunnel with a Traffic
-Policy that checks that token at the ngrok edge. Requests without a matching
-`Authorization: Bearer <token>` header get a `401` before they ever reach
-vLLM (see [`docker/traffic-policy.yml.example`](docker/traffic-policy.yml.example)).
-The script prints the token; use the printed `https://*.ngrok-free.app` URL
-as the Base URL and that token as the API key:
+`docker/.env.ngrok`, gitignored) and starts an ngrok tunnel that checks
+that token at the edge, so requests without a matching
+`Authorization: Bearer <token>` header get rejected before they ever reach
+vLLM. The script prints the token and the URL to use:
 
 ```
 Base URL:  https://<your-subdomain>.ngrok-free.app/v1
 API key:   <the bearer token printed by scripts/tunnel.sh>
 ```
 
-vLLM itself has no authentication, so do not expose port 8000 directly (for
-example via a cloud firewall rule or a `docker compose` port mapping to
-`0.0.0.0`) without something like this in front of it. Anyone with the URL
-could otherwise run inference on your GPU for free.
+vLLM itself has no authentication built in, so never expose port 8000
+directly without something like this in front of it.
 
 ## Configuration
 
 | Variable | Where | Default | Purpose |
 |---|---|---|---|
-| `MODEL_ID` | `docker/.env` | `google/gemma-4-E4B-it-qat-w4a16-ct` | HF repo id vLLM serves |
+| `MODEL_ID` | `docker/.env` | `google/gemma-4-E2B-it-qat-w4a16-ct` | Model vLLM serves |
 | `VLLM_IMAGE_TAG` | `docker/.env` | `gemma4` | `vllm/vllm-openai` image tag |
-| `VLLM_PORT` | `docker/.env` | `8000` | Port for the OpenAI API and `/metrics` |
+| `VLLM_PORT` | `docker/.env` | `8000` | Port for the API and `/metrics` |
 | `GEMMA_VLLM_BASE_URL` | FiftyOne plugin secret or env var | `http://localhost:8000/v1` | Where the plugin looks for the server |
-| `NGROK_BEARER_TOKEN` | `docker/.env.ngrok` (auto-generated, gitignored) | random | Token `scripts/tunnel.sh` requires at the ngrok edge |
+| `NGROK_BEARER_TOKEN` | `docker/.env.ngrok` (auto generated, gitignored) | random | Token `scripts/tunnel.sh` checks at the ngrok edge |
 
 Plugin secrets are declared in [`fiftyone.yml`](fiftyone.yml)'s `secrets:`
-block and resolved via `ctx.secrets`, falling back to the environment
-variable of the same name. Set `GEMMA_VLLM_BASE_URL` if you're serving on a
-different host or port.
+block and resolved through `ctx.secrets`, falling back to the environment
+variable of the same name.
 
 ## Development
 
@@ -168,42 +156,24 @@ pytest
 
 # JS (hybrid panel frontend)
 npm install
-npm run build   # one-shot build -> dist/index.umd.js
+npm run build   # one shot build, outputs dist/index.umd.js
 npm run dev     # watch mode
 ```
 
-Debugging the panel end-to-end: this repo was built and verified using the
-`fiftyone-app-playwright` skill/MCP pattern. Launch the App with
-`remote=True`, drive it with Playwright, and watch for the "reload after
-`reload_dataset`" pitfall documented there if you extend this plugin with
-dataset-mutating operators.
+### Notes on the frontend
 
-### VOODO gotchas found while building this panel
+The installed `@voxel51/voodo` version behaves a little differently from
+its own type declarations, worth knowing before touching `src/`:
 
-The installed `@voxel51/voodo` version behaved differently from its own
-type declarations in a few ways worth knowing before you touch `src/`:
-
-- **The FiftyOne App never loads VOODO's CSS on its own.** It only fetches
-  the JS named in `package.json`'s `fiftyone.script`. `src/index.tsx`
-  imports `@voxel51/voodo/theme.css?inline` and injects it as a `<style>`
-  tag at module load. Without this, every VOODO component renders as
-  unstyled HTML.
-- **VOODO's CSS variables default to light-mode values** unless a `.dark`
-  class is present on an ancestor element; the FiftyOne App doesn't set one
-  itself. `GemmaMetricsPanel`'s root `Stack` carries `className="dark"`,
-  scoped to this panel only so it doesn't affect the rest of the App.
-- **The `size` prop on standalone icon components has no effect** in this
-  version (confirmed: an icon rendered at a requested `Size.Xs` still
-  measured ~940px). Icons default to filling their parent, so `StatTile`
-  wraps each icon in a small fixed-size `div` with `overflow: hidden`
-  instead of relying on `size`.
-- **`Pill`'s `icon` prop and its `isStatus` bullet have the same
-  unconstrained-size problem**, rendered internally with no way to pass a
-  size override. `StatusBadge` avoids both, using `TextBadge` plus a plain
-  `<span>` dot it fully controls instead.
-
-If a future VOODO version fixes any of these, the workarounds are harmless
-to leave in place, but worth revisiting.
+- FiftyOne only loads a plugin's JS, never its CSS, so `src/index.tsx`
+  imports VOODO's theme CSS directly and injects it as a style tag.
+- VOODO's colors default to light mode unless a `.dark` class is present
+  on an ancestor, so the panel's root element sets that itself, scoped to
+  just this panel.
+- Icon components ignore their `size` prop in this version, so `StatTile`
+  wraps each icon in a small fixed size container instead.
+- `Pill`'s icon and status dot have the same sizing problem, so
+  `StatusBadge` builds its own badge and dot instead of using `Pill`.
 
 ## License
 

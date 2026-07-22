@@ -9,18 +9,25 @@ services:
       - hf-cache:/root/.cache/huggingface
     environment:
       - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+      # Reduces CUDA allocator fragmentation on tight memory budgets.
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
     command:
       - "--model"
-      - "${MODEL_ID:-google/gemma-4-E4B-it-qat-w4a16-ct}"
+      - "${MODEL_ID:-google/gemma-4-E2B-it-qat-w4a16-ct}"
       - "--port"
       - "8000"
       - "--gpu-memory-utilization"
       - "0.90"
+      # Context length traded against concurrency to fit GPU memory.
       - "--max-model-len"
-      - "8192"
+      - "65536"
       - "--max-num-seqs"
-      - "8"
+      - "1"
       - "--enforce-eager"
+      # Required for clients that send tool_choice="auto".
+      - "--enable-auto-tool-choice"
+      - "--tool-call-parser"
+      - "gemma4"
     deploy:
       resources:
         reservations:

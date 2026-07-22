@@ -66,8 +66,6 @@ export function usePluginClient(): PluginClient {
     [handleEvent]
   );
 
-  // Memoized so consumers relying on referential stability (e.g. an effect
-  // with `client` in its deps) don't get a new object every render just
-  // because this hook returns a fresh literal each call.
+  // Memoized for consumers depending on referential stability.
   return useMemo(() => ({ get_status, get_metrics }), [get_status, get_metrics]);
 }

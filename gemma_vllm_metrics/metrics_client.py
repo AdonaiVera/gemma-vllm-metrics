@@ -4,9 +4,7 @@ import httpx
 
 from .config import metrics_url, models_url
 
-# Metrics we surface in the panel, mapped to the vLLM Prometheus series that
-# feed them. Counters/gauges are read as their latest sample value; histograms
-# are summarized as (count, sum) so the caller can derive an average.
+# Maps our summary keys to the vLLM Prometheus series that feed them.
 COUNTER_METRICS = {
     "prompt_tokens_total": "vllm:prompt_tokens_total",
     "generation_tokens_total": "vllm:generation_tokens_total",
@@ -24,7 +22,7 @@ HISTOGRAM_METRICS = {
 
 
 def parse_prometheus_text(text):
-    """Parses Prometheus exposition-format text into {metric_name: [(labels_str, value)]}.
+    """Parses Prometheus exposition text into {metric_name: [(labels_str, value)]}.
 
     Deliberately minimal: just enough to read vLLM's own metric set, not a
     general-purpose Prometheus client.
@@ -61,7 +59,6 @@ def _latest_series(series, name):
 
 
 def _histogram_stats(series, base_name):
-    """Derives (count, avg_seconds) from a Prometheus histogram's _sum/_count."""
     count = _sum_series(series, f"{base_name}_count")
     total = _sum_series(series, f"{base_name}_sum")
     avg = (total / count) if count else None
@@ -69,7 +66,6 @@ def _histogram_stats(series, base_name):
 
 
 def fetch_raw_metrics(base_url, timeout=5.0):
-    """GETs vLLM's /metrics endpoint. Raises httpx exceptions on failure."""
     resp = httpx.get(metrics_url(base_url), timeout=timeout)
     resp.raise_for_status()
     return resp.text
@@ -95,11 +91,7 @@ def summarize_metrics_text(text):
 
 
 def get_metrics_snapshot(base_url, timeout=5.0):
-    """Fetches and summarizes vLLM's current metrics into a flat dict.
-
-    Returns a dict with `ok`, `fetched_at`, and either `error` or the
-    summarized metric fields (counters, gauges, histogram count/avg pairs).
-    """
+    """Returns {ok, fetched_at, error} on failure, or {ok, fetched_at, **summary} on success."""
     fetched_at = time.time()
     try:
         text = fetch_raw_metrics(base_url, timeout=timeout)
@@ -112,7 +104,6 @@ def get_metrics_snapshot(base_url, timeout=5.0):
 
 
 def check_server_status(base_url, timeout=5.0):
-    """Lightweight health check against vLLM's /v1/models endpoint."""
     try:
         resp = httpx.get(models_url(base_url), timeout=timeout)
         resp.raise_for_status()
