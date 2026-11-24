@@ -1,0 +1,13 @@
+{
+  "env": "cpu-llamacpp",
+  "model": "google/gemma-4-E2B-it",
+  "thinking": "on",
+  "runs": 18,
+  "success_rate": 0.8333333333333334,
+  "valid_tool_call_rate": 1.0,
+  "avg_turns": 2.1666666666666665,
+  "avg_seconds": 36.951742381012686,
+  "avg_total_tokens": 2093.3333333333335,
+  "errors": 0,
+  "hit_max_turns": 0
+}

@@ -1,0 +1,80 @@
+{
+  "env": "cloud-gpu-l4-fp8",
+  "base_url": "http://localhost:8000",
+  "started_at": "2026-11-24T20:42:28+0000",
+  "client": "docker:vllm/vllm-openai:gemma4",
+  "server_version": {
+    "version": "0.19.1.dev6+g6d4a8e6d2"
+  },
+  "served_models": {
+    "object": "list",
+    "data": [
+      {
+        "id": "google/gemma-4-E2B-it",
+        "object": "model",
+        "created": 1795552948,
+        "owned_by": "vllm",
+        "root": "google/gemma-4-E2B-it",
+        "parent": null,
+        "max_model_len": 9216,
+        "permission": [
+          {
+            "id": "modelperm-8db2d6868dcb4911",
+            "object": "model_permission",
+            "created": 1795552948,
+            "allow_create_engine": false,
+            "allow_sampling": true,
+            "allow_logprobs": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "allow_fine_tuning": false,
+            "organization": "*",
+            "group": null,
+            "is_blocking": false
+          }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "hardware": "NVIDIA L4 24GB (GCE g2-standard-8)",
+    "engine": "vllm",
+    "precision": "fp8",
+    "checkpoint": "google/gemma-4-E2B-it",
+    "max_model_len": "9216",
+    "max_num_seqs": "8",
+    "server_version": "{\"version\":\"0.19.1.dev6+g6d4a8e6d2\"}"
+  },
+  "workloads": {
+    "model": "google/gemma-4-E2B-it",
+    "seed": 42,
+    "temperature": 0.0,
+    "endpoint": "/v1/chat/completions",
+    "backend": "openai-chat",
+    "workloads": {
+      "short": {
+        "input_len": 128,
+        "output_len": 128
+      },
+      "medium": {
+        "input_len": 2048,
+        "output_len": 256
+      },
+      "long": {
+        "input_len": 8192,
+        "output_len": 512
+      }
+    },
+    "concurrencies": [
+      1,
+      4,
+      8
+    ],
+    "prompts_per_slot": 8,
+    "min_prompts": 16,
+    "num_warmups": 4,
+    "trials": 3,
+    "percentile_metrics": "ttft,tpot,itl,e2el",
+    "metric_percentiles": "50,95,99"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "_note": "USD per hour for the whole accelerator/VM billed while serving. Scenarios are alternative billing modes for the same environment; null means not filled in yet. Verify every figure against the live Google Cloud pricing pages and calculator before publishing.",
+  "envs": {
+    "local-gpu-fp8": {
+      "label": "Local RTX 4070 Ti",
+      "scenarios": {
+        "electricity": 0.043
+      },
+      "note": "ASSUMPTION, not measured: 285 W (RTX 4070 Ti TDP) x $0.15/kWh = $0.043/h, hardware not amortized. Real draw under load differs."
+    },
+    "tpu-v6e-fp8": {
+      "label": "Cloud TPU v6e-1",
+      "scenarios": {
+        "on_demand": 2.7,
+        "flex_start": 1.35
+      },
+      "note": "v6e-1 = one chip, us-east5. $2.70/chip-h on-demand and $1.35 Flex-start per Google's TPU and DWS pricing pages (the cached page looked stale; verify against live billing). Our run used on-demand."
+    },
+    "cpu-llamacpp": {
+      "label": "CPU (llama.cpp)",
+      "scenarios": {
+        "on_demand": null
+      },
+      "note": "Fill in the hourly price of the CPU VM. Different checkpoint/quantization; not a controlled comparison."
+    },
+    "cloud-gpu-l4-fp8": {
+      "label": "Cloud GPU (L4)",
+      "scenarios": {
+        "on_demand": 0.94
+      },
+      "note": "g2-standard-8 (1x L4, 8 vCPU) on-demand, northamerica-northeast1. $0.94/h from third-party price trackers; Google's own page snippet was ambiguous (a $0.854 figure may be another region). Verify in billing."
+    },
+    "cloud-cpu-llamacpp": {
+      "label": "Cloud CPU (same VM)",
+      "scenarios": {
+        "on_demand": null
+      },
+      "note": "Runs on the L4 VM's 8 vCPUs with the GPU idle, so billing it at the VM price would not be fair. Not priced."
+    }
+  }
+}

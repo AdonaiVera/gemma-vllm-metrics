@@ -1,0 +1,22 @@
+# CPU baseline: llama.cpp server on the GGUF build of the same model.
+# Not a controlled leg: GGUF Q8_0 is a different engine and weight format
+# than vLLM fp8, so label it that way in results.
+services:
+  llama-cpu:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: gemma-llama-cpu
+    ports:
+      - "8081:8080"
+    volumes:
+      - llama-cache:/root/.cache
+    environment:
+      LLAMA_CACHE: /root/.cache/llama.cpp
+    command: >
+      -hf ggml-org/gemma-4-E2B-it-GGUF:Q8_0
+      --host 0.0.0.0 --port 8080
+      --jinja
+      -np 8 -c 73728
+      --alias google/gemma-4-E2B-it
+
+volumes:
+  llama-cache:

@@ -10,3 +10,7 @@ docker/.env.ngrok
 docker/traffic-policy.yml
 
 .DS_Store
+
+# Local-only deploy settings and logs
+deploy/*/config.local.sh
+deploy/*/.*.log

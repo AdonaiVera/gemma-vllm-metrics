@@ -1,0 +1,12 @@
+{
+  "env": "local-gpu-fp8",
+  "model": "google/gemma-4-E2B-it",
+  "runs": 18,
+  "success_rate": 0.6666666666666666,
+  "valid_tool_call_rate": 1.0,
+  "avg_turns": 2.6666666666666665,
+  "avg_seconds": 0.5710315448749397,
+  "avg_total_tokens": 1030.8333333333333,
+  "errors": 0,
+  "hit_max_turns": 0
+}

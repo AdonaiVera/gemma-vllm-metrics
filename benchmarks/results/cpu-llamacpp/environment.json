@@ -1,0 +1,115 @@
+{
+  "env": "cpu-llamacpp",
+  "base_url": "http://localhost:8081",
+  "started_at": "2026-11-22T21:39:17-0500",
+  "client": "docker:vllm/vllm-openai:gemma4",
+  "server_version": {
+    "error": "HTTP Error 404: Not Found"
+  },
+  "served_models": {
+    "models": [
+      {
+        "name": "google/gemma-4-E2B-it",
+        "model": "google/gemma-4-E2B-it",
+        "modified_at": "",
+        "size": "",
+        "digest": "",
+        "type": "model",
+        "description": "",
+        "tags": [
+          ""
+        ],
+        "capabilities": [
+          "completion",
+          "multimodal"
+        ],
+        "parameters": "",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "",
+          "families": [
+            ""
+          ],
+          "parameter_size": "",
+          "quantization_level": ""
+        }
+      }
+    ],
+    "object": "list",
+    "data": [
+      {
+        "id": "google/gemma-4-E2B-it",
+        "aliases": [
+          "google/gemma-4-E2B-it"
+        ],
+        "tags": [],
+        "object": "model",
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image",
+            "audio",
+            "video"
+          ],
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "created": 1795401557,
+        "owned_by": "llamacpp",
+        "meta": {
+          "vocab_type": 2,
+          "n_vocab": 262144,
+          "n_ctx": 9216,
+          "n_ctx_train": 131072,
+          "n_embd": 1536,
+          "n_params": 4647450147,
+          "size": 4951677068,
+          "ftype": "Q8_0"
+        }
+      }
+    ]
+  },
+  "meta": {
+    "hardware": "CPU-8-threads-24-core-host",
+    "engine": "llama.cpp",
+    "precision": "GGUF-Q8_0",
+    "checkpoint": "ggml-org/gemma-4-E2B-it-GGUF",
+    "controlled": "false",
+    "parallel_slots": "8",
+    "ctx_per_slot": "9216"
+  },
+  "workloads": {
+    "model": "google/gemma-4-E2B-it",
+    "seed": 42,
+    "temperature": 0.0,
+    "endpoint": "/v1/chat/completions",
+    "backend": "openai-chat",
+    "workloads": {
+      "short": {
+        "input_len": 128,
+        "output_len": 128
+      },
+      "medium": {
+        "input_len": 2048,
+        "output_len": 256
+      },
+      "long": {
+        "input_len": 8192,
+        "output_len": 512
+      }
+    },
+    "concurrencies": [
+      1,
+      4,
+      8
+    ],
+    "prompts_per_slot": 8,
+    "min_prompts": 16,
+    "num_warmups": 4,
+    "trials": 3,
+    "percentile_metrics": "ttft,tpot,itl,e2el",
+    "metric_percentiles": "50,95,99"
+  }
+}

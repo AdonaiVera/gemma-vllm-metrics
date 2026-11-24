@@ -1,0 +1,2295 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795466746.184659   93325 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795466747.137909   93325 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795466747.141277   93325 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7d1c20121080>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c1_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-539bc30b-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2019.28it/s]
+(MainProcess pid=93325) INFO 11-23 20:45:56 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  44.25     
+Total input tokens:                      2202      
+Total generated tokens:                  2048      
+Request throughput (req/s):              0.36      
+Output token throughput (tok/s):         46.28     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          96.04     
+---------------Time to First Token----------------
+Mean TTFT (ms):                          119.52    
+Median TTFT (ms):                        36.53     
+P50 TTFT (ms):                           36.53     
+P95 TTFT (ms):                           370.25    
+P99 TTFT (ms):                           1170.63   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          20.58     
+Median TPOT (ms):                        20.84     
+P50 TPOT (ms):                           20.84     
+P95 TPOT (ms):                           20.84     
+P99 TPOT (ms):                           20.84     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.25     
+Median ITL (ms):                         20.84     
+P50 ITL (ms):                            20.84     
+P95 ITL (ms):                            20.94     
+P99 ITL (ms):                            21.00     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2733.06   
+Median E2EL (ms):                        2682.64   
+P50 E2EL (ms):                           2682.64   
+P95 E2EL (ms):                           3016.16   
+P99 E2EL (ms):                           3816.10   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "__init__"
+ - leaked function "__eq__"
+ - leaked function "create_descriptor_reduce"
+ - leaked function "create_clampf"
+ - leaked function "create_ceil"
+ - leaked function "create_buffer_store"
+ - leaked function "get_gluon_layout_from_tensor"
+ - leaked function "get_half_ty"
+ - leaked function "create_sqrt"
+ - leaked function "create_xor"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795466818.402064   93629 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795466819.356980   93629 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795466819.360387   93629 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x79df4c1b80e0>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c1_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-3a14ea67-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1857.94it/s]
+(MainProcess pid=93629) INFO 11-23 20:47:08 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  42.83     
+Total input tokens:                      2202      
+Total generated tokens:                  2048      
+Request throughput (req/s):              0.37      
+Output token throughput (tok/s):         47.82     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          99.23     
+---------------Time to First Token----------------
+Mean TTFT (ms):                          30.53     
+Median TTFT (ms):                        30.52     
+P50 TTFT (ms):                           30.52     
+P95 TTFT (ms):                           30.84     
+P99 TTFT (ms):                           30.91     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          20.60     
+Median TPOT (ms):                        20.84     
+P50 TPOT (ms):                           20.84     
+P95 TPOT (ms):                           20.84     
+P99 TPOT (ms):                           20.84     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.15     
+Median ITL (ms):                         20.83     
+P50 ITL (ms):                            20.83     
+P95 ITL (ms):                            20.93     
+P99 ITL (ms):                            20.99     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2646.76   
+Median E2EL (ms):                        2676.72   
+P50 E2EL (ms):                           2676.72   
+P95 E2EL (ms):                           2676.85   
+P99 E2EL (ms):                           2676.86   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "__imul__"
+ - leaked function "create_rsqrt"
+ - leaked function "create_sqrt"
+ - leaked function "get_uint8"
+ - leaked function "get_in_dim_names"
+ - leaked function "create_tensor_descriptor_type"
+ - leaked function "get_tensor_descriptor_layout_type"
+ - leaked function "create_async_copy_lds_barrier_arrive"
+ - leaked function "create_fneg"
+ - leaked function "create_extern_elementwise"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795466884.442735   93832 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795466885.397727   93832 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795466885.401145   93832 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7c45dc1a80e0>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c1_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-30b5f2a0-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1998.60it/s]
+(MainProcess pid=93832) INFO 11-23 20:48:14 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  42.83     
+Total input tokens:                      2202      
+Total generated tokens:                  2048      
+Request throughput (req/s):              0.37      
+Output token throughput (tok/s):         47.82     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          99.23     
+---------------Time to First Token----------------
+Mean TTFT (ms):                          30.44     
+Median TTFT (ms):                        30.42     
+P50 TTFT (ms):                           30.42     
+P95 TTFT (ms):                           30.75     
+P99 TTFT (ms):                           30.76     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          20.60     
+Median TPOT (ms):                        20.84     
+P50 TPOT (ms):                           20.84     
+P95 TPOT (ms):                           20.84     
+P99 TPOT (ms):                           20.84     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.15     
+Median ITL (ms):                         20.83     
+P50 ITL (ms):                            20.83     
+P95 ITL (ms):                            20.93     
+P99 ITL (ms):                            20.98     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2646.70   
+Median E2EL (ms):                        2676.63   
+P50 E2EL (ms):                           2676.63   
+P95 E2EL (ms):                           2676.87   
+P99 E2EL (ms):                           2676.98   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function ""
+ - leaked function "extend_with"
+ - leaked function "create_map_elementwise_ret"
+ - leaked function "create_lshr"
+ - leaked function "create_fcmpUGE"
+ - leaked function "has_function"
+ - leaked function "create_module"
+ - leaked function "get_out_dim_names"
+ - leaked function "get_shared_linear_layout"
+ - leaked function "create_srem"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795466950.403876   94029 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795466951.358134   94029 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795466951.361478   94029 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x74bde75a4c20>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c4_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-9cf749c3-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1981.95it/s]
+(MainProcess pid=94029) INFO 11-23 20:49:20 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  25.86     
+Total input tokens:                      4400      
+Total generated tokens:                  4096      
+Request throughput (req/s):              1.24      
+Output token throughput (tok/s):         158.39    
+Peak output token throughput (tok/s):    192.00    
+Peak concurrent requests:                8.00      
+Total token throughput (tok/s):          328.53    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          492.58    
+Median TTFT (ms):                        71.41     
+P50 TTFT (ms):                           71.41     
+P95 TTFT (ms):                           3841.97   
+P99 TTFT (ms):                           3842.09   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.44     
+Median TPOT (ms):                        21.19     
+P50 TPOT (ms):                           21.19     
+P95 TPOT (ms):                           21.25     
+P99 TPOT (ms):                           29.51     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.73     
+Median ITL (ms):                         21.16     
+P50 ITL (ms):                            21.16     
+P95 ITL (ms):                            21.29     
+P99 ITL (ms):                            21.55     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          3215.55   
+Median E2EL (ms):                        2763.84   
+P50 E2EL (ms):                           2763.84   
+P95 E2EL (ms):                           6532.31   
+P99 E2EL (ms):                           6532.83   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function ""
+ - leaked function "set_loc"
+ - leaked function "__init__"
+ - leaked function "get_then_yield"
+ - leaked function "get_bool_attr"
+ - leaked function "get_entry_func_name"
+ - leaked function ""
+ - leaked function "is_injective"
+ - leaked function "create_async_copy_local_to_global"
+ - leaked function "apply"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795466992.144002   94281 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795466993.101456   94281 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795466993.104914   94281 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7e33f77a4040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c4_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-8b455d5e-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1817.19it/s]
+(MainProcess pid=94281) INFO 11-23 20:50:01 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  22.03     
+Total input tokens:                      4400      
+Total generated tokens:                  4096      
+Request throughput (req/s):              1.45      
+Output token throughput (tok/s):         185.90    
+Peak output token throughput (tok/s):    192.00    
+Peak concurrent requests:                8.00      
+Total token throughput (tok/s):          385.60    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          62.82     
+Median TTFT (ms):                        63.85     
+P50 TTFT (ms):                           63.85     
+P95 TTFT (ms):                           70.05     
+P99 TTFT (ms):                           70.32     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.06     
+Median TPOT (ms):                        21.18     
+P50 TPOT (ms):                           21.18     
+P95 TPOT (ms):                           21.20     
+P99 TPOT (ms):                           21.20     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.34     
+Median ITL (ms):                         21.16     
+P50 ITL (ms):                            21.16     
+P95 ITL (ms):                            21.28     
+P99 ITL (ms):                            21.57     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2737.11   
+Median E2EL (ms):                        2755.00   
+P50 E2EL (ms):                           2755.00   
+P95 E2EL (ms):                           2760.99   
+P99 E2EL (ms):                           2761.17   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_num_regions"
+ - leaked function "create_local_load"
+ - leaked function "create_local_alloc"
+ - leaked function "create_map_elementwise"
+ - leaked function "__str__"
+ - leaked function "create_exp2"
+ - leaked function "create_clc_load_result"
+ - leaked function "has_terminator"
+ - leaked function "create_sqrt"
+ - leaked function ""
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467029.313714   94477 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467030.266016   94477 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467030.269370   94477 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x750bd55ac0e0>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c4_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-bdaaf685-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2065.91it/s]
+(MainProcess pid=94477) INFO 11-23 20:50:39 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  22.03     
+Total input tokens:                      4400      
+Total generated tokens:                  4096      
+Request throughput (req/s):              1.45      
+Output token throughput (tok/s):         185.90    
+Peak output token throughput (tok/s):    192.00    
+Peak concurrent requests:                8.00      
+Total token throughput (tok/s):          385.60    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          62.82     
+Median TTFT (ms):                        63.94     
+P50 TTFT (ms):                           63.94     
+P95 TTFT (ms):                           69.35     
+P99 TTFT (ms):                           69.63     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.06     
+Median TPOT (ms):                        21.18     
+P50 TPOT (ms):                           21.18     
+P95 TPOT (ms):                           21.19     
+P99 TPOT (ms):                           21.19     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.34     
+Median ITL (ms):                         21.16     
+P50 ITL (ms):                            21.16     
+P95 ITL (ms):                            21.28     
+P99 ITL (ms):                            21.50     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2737.12   
+Median E2EL (ms):                        2755.05   
+P50 E2EL (ms):                           2755.05   
+P95 E2EL (ms):                           2760.79   
+P99 E2EL (ms):                           2760.84   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "create_minnumf"
+ - leaked function "create_clc_is_canceled"
+ - leaked function "create_dot"
+ - leaked function "create_print"
+ - leaked function "create_minimumf"
+ - leaked function ""
+ - leaked function "get_functions"
+ - leaked function "extend_with"
+ - leaked function "create_lds_barrier_wait"
+ - leaked function "create_ptr_to_int"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467066.600681   94676 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467067.552866   94676 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467067.556225   94676 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7891659a40e0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c8_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-352f116d-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1977.98it/s]
+(MainProcess pid=94676) INFO 11-23 20:51:16 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  29.56     
+Total input tokens:                      8797      
+Total generated tokens:                  8192      
+Request throughput (req/s):              2.16      
+Output token throughput (tok/s):         277.09    
+Peak output token throughput (tok/s):    376.00    
+Peak concurrent requests:                16.00     
+Total token throughput (tok/s):          574.63    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          852.22    
+Median TTFT (ms):                        97.64     
+P50 TTFT (ms):                           97.64     
+P95 TTFT (ms):                           3734.38   
+P99 TTFT (ms):                           3734.76   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          22.17     
+Median TPOT (ms):                        21.70     
+P50 TPOT (ms):                           21.70     
+P95 TPOT (ms):                           25.77     
+P99 TPOT (ms):                           32.27     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           22.58     
+Median ITL (ms):                         21.67     
+P50 ITL (ms):                            21.67     
+P95 ITL (ms):                            21.81     
+P99 ITL (ms):                            22.15     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          3668.16   
+Median E2EL (ms):                        3128.37   
+P50 E2EL (ms):                           3128.37   
+P95 E2EL (ms):                           6489.74   
+P99 E2EL (ms):                           6490.05   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "str"
+ - leaked function "__eq__"
+ - leaked function "get_fp8e5b16_ty"
+ - leaked function ""
+ - leaked function "create_iabs"
+ - leaked function "create_add"
+ - leaked function "create_memdesc_subslice"
+ - leaked function "get_pipeline_str"
+ - leaked function "get_int1"
+ - leaked function "create_icmpSGT"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467111.388801   94941 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467112.342640   94941 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467112.346036   94941 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x738e681a80e0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c8_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-7a2a03ee-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2153.96it/s]
+(MainProcess pid=94941) INFO 11-23 20:52:01 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  23.70     
+Total input tokens:                      8797      
+Total generated tokens:                  8192      
+Request throughput (req/s):              2.70      
+Output token throughput (tok/s):         345.66    
+Peak output token throughput (tok/s):    376.00    
+Peak concurrent requests:                16.00     
+Total token throughput (tok/s):          716.85    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          172.10    
+Median TTFT (ms):                        68.50     
+P50 TTFT (ms):                           68.50     
+P95 TTFT (ms):                           650.76    
+P99 TTFT (ms):                           651.34    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.77     
+Median TPOT (ms):                        21.70     
+P50 TPOT (ms):                           21.70     
+P95 TPOT (ms):                           22.94     
+P99 TPOT (ms):                           26.01     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           22.15     
+Median ITL (ms):                         21.67     
+P50 ITL (ms):                            21.67     
+P95 ITL (ms):                            21.82     
+P99 ITL (ms):                            22.18     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2936.70   
+Median E2EL (ms):                        2823.93   
+P50 E2EL (ms):                           2823.93   
+P95 E2EL (ms):                           3405.34   
+P99 E2EL (ms):                           3405.53   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_distributed_ty"
+ - leaked function "create_fence_async_shared"
+ - leaked function "get_loc"
+ - leaked function "create_icmpSGT"
+ - leaked function "__init__"
+ - leaked function "create_fp4_to_fp"
+ - leaked function "create_sqrt"
+ - leaked function "create_mbarrier_wait"
+ - leaked function "create_memdesc_reinterpret"
+ - leaked function "get_then_block"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467150.353703   95156 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467151.306519   95156 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467151.309940   95156 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7091411ac040>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=128, random_output_len=128, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='short_c8_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-ff4a2765-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1842.13it/s]
+(MainProcess pid=95156) INFO 11-23 20:52:40 [utils.py:88] Sampling input_len from [128, 128] and output_len from [128, 128]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  22.59     
+Total input tokens:                      8797      
+Total generated tokens:                  8192      
+Request throughput (req/s):              2.83      
+Output token throughput (tok/s):         362.69    
+Peak output token throughput (tok/s):    368.00    
+Peak concurrent requests:                16.00     
+Total token throughput (tok/s):          752.17    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          67.32     
+Median TTFT (ms):                        67.83     
+P50 TTFT (ms):                           67.83     
+P95 TTFT (ms):                           73.86     
+P99 TTFT (ms):                           74.89     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.48     
+Median TPOT (ms):                        21.70     
+P50 TPOT (ms):                           21.70     
+P95 TPOT (ms):                           21.71     
+P99 TPOT (ms):                           21.71     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.88     
+Median ITL (ms):                         21.67     
+P50 ITL (ms):                            21.67     
+P95 ITL (ms):                            21.81     
+P99 ITL (ms):                            22.17     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          2795.91   
+Median E2EL (ms):                        2823.63   
+P50 E2EL (ms):                           2823.63   
+P95 E2EL (ms):                           2828.99   
+P99 E2EL (ms):                           2830.15   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "create_assume"
+ - leaked function "move_before"
+ - leaked function "get_distributed_linear_layout"
+ - leaked function "create_precise_divf"
+ - leaked function "create_atomic_cas"
+ - leaked function "create_and"
+ - leaked function "__new__"
+ - leaked function "create_threadwise_inline_asm"
+ - leaked function "enable_debug"
+ - leaked function "create_fcmpUGT"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467188.272392   95375 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467189.223888   95375 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467189.227283   95375 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x78b9d27b0c20>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c1_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-6c192276-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1844.46it/s]
+(MainProcess pid=95375) INFO 11-23 20:53:18 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  87.03     
+Total input tokens:                      32922     
+Total generated tokens:                  4096      
+Request throughput (req/s):              0.18      
+Output token throughput (tok/s):         47.06     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          425.35    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          117.24    
+Median TTFT (ms):                        122.94    
+P50 TTFT (ms):                           122.94    
+P95 TTFT (ms):                           123.47    
+P99 TTFT (ms):                           123.60    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          17.21     
+Median TPOT (ms):                        19.23     
+P50 TPOT (ms):                           19.23     
+P95 TPOT (ms):                           20.88     
+P99 TPOT (ms):                           20.89     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           24.88     
+Median ITL (ms):                         20.88     
+P50 ITL (ms):                            20.88     
+P95 ITL (ms):                            20.97     
+P99 ITL (ms):                            21.03     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4504.67   
+Median E2EL (ms):                        5026.09   
+P50 E2EL (ms):                           5026.09   
+P95 E2EL (ms):                           5444.86   
+P99 E2EL (ms):                           5445.10   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "set_nvvm_maxnreg"
+ - leaked function "__eq__"
+ - leaked function ""
+ - leaked function "get_num_results"
+ - leaked function "add_fn_target_feature"
+ - leaked function "create_and"
+ - leaked function "get_parent_region"
+ - leaked function "get_slice_layout"
+ - leaked function "block_scaled_matmul_nvfp4"
+ - leaked function "create_print"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467314.691855   95606 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467315.645410   95606 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467315.648790   95606 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x79bd1bfb0c20>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c1_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-bfb05934-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1961.10it/s]
+(MainProcess pid=95606) INFO 11-23 20:55:24 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  85.88     
+Total input tokens:                      32922     
+Total generated tokens:                  4096      
+Request throughput (req/s):              0.19      
+Output token throughput (tok/s):         47.70     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          431.05    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          38.88     
+Median TTFT (ms):                        39.39     
+P50 TTFT (ms):                           39.39     
+P95 TTFT (ms):                           39.76     
+P99 TTFT (ms):                           39.79     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          17.39     
+Median TPOT (ms):                        20.40     
+P50 TPOT (ms):                           20.40     
+P95 TPOT (ms):                           20.90     
+P99 TPOT (ms):                           20.90     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           26.69     
+Median ITL (ms):                         20.90     
+P50 ITL (ms):                            20.90     
+P95 ITL (ms):                            20.99     
+P99 ITL (ms):                            21.05     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4473.44   
+Median E2EL (ms):                        5238.92   
+P50 E2EL (ms):                           5238.92   
+P95 E2EL (ms):                           5367.77   
+P99 E2EL (ms):                           5367.83   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_ptr_ty"
+ - leaked function "create_minnumf"
+ - leaked function "get_block_ty"
+ - leaked function "__repr__"
+ - leaked function "get_disable_loop_licm_attr"
+ - leaked function "__imul__"
+ - leaked function "call"
+ - leaked function "get_region"
+ - leaked function "create_fmul"
+ - leaked function "get_shared_linear_layout"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467434.866642   96304 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467435.821848   96304 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467435.825243   96304 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7822041b0cc0>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c1_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-16549125-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2072.92it/s]
+(MainProcess pid=96304) INFO 11-23 20:57:24 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  85.87     
+Total input tokens:                      32922     
+Total generated tokens:                  4096      
+Request throughput (req/s):              0.19      
+Output token throughput (tok/s):         47.70     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          431.07    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          38.78     
+Median TTFT (ms):                        39.33     
+P50 TTFT (ms):                           39.33     
+P95 TTFT (ms):                           39.60     
+P99 TTFT (ms):                           39.63     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          17.39     
+Median TPOT (ms):                        20.40     
+P50 TPOT (ms):                           20.40     
+P95 TPOT (ms):                           20.90     
+P99 TPOT (ms):                           20.90     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           26.69     
+Median ITL (ms):                         20.90     
+P50 ITL (ms):                            20.90     
+P95 ITL (ms):                            20.99     
+P99 ITL (ms):                            21.04     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4473.26   
+Median E2EL (ms):                        5238.82   
+P50 E2EL (ms):                           5238.82   
+P95 E2EL (ms):                           5367.60   
+P99 E2EL (ms):                           5367.73   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_default_region"
+ - leaked function ""
+ - leaked function "get_matrix_view"
+ - leaked function "create_async_copy_lds_barrier_arrive"
+ - leaked function "create_descriptor_scatter"
+ - leaked function "get_insertion_block"
+ - leaked function "__ne__"
+ - leaked function "create_scan_ret"
+ - leaked function "get_tensor_descriptor_im2col_layout_type"
+ - leaked function "run"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467554.895394   96503 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467555.847933   96503 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467555.851299   96503 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7158fcdb8040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c4_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-df758409-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2134.37it/s]
+(MainProcess pid=96503) INFO 11-23 20:59:24 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  45.33     
+Total input tokens:                      65840     
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.71      
+Output token throughput (tok/s):         180.72    
+Peak output token throughput (tok/s):    192.00    
+Peak concurrent requests:                8.00      
+Total token throughput (tok/s):          1633.17   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          156.53    
+Median TTFT (ms):                        119.43    
+P50 TTFT (ms):                           119.43    
+P95 TTFT (ms):                           323.10    
+P99 TTFT (ms):                           334.87    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          18.56     
+Median TPOT (ms):                        21.27     
+P50 TPOT (ms):                           21.27     
+P95 TPOT (ms):                           22.02     
+P99 TPOT (ms):                           22.19     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           26.80     
+Median ITL (ms):                         21.26     
+P50 ITL (ms):                            21.26     
+P95 ITL (ms):                            21.38     
+P99 ITL (ms):                            21.67     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4888.62   
+Median E2EL (ms):                        5490.86   
+P50 E2EL (ms):                           5490.86   
+P95 E2EL (ms):                           5809.77   
+P99 E2EL (ms):                           5821.64   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_int32"
+ - leaked function "get_int_attr"
+ - leaked function ""
+ - leaked function "create_trans"
+ - leaked function "get_slice_layout"
+ - leaked function "append_operand"
+ - leaked function "get_matrix_view"
+ - leaked function "__str__"
+ - leaked function "get_distributed_linear_layout"
+ - leaked function "create_local_load_packed_transposed"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467618.611097   96722 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467619.561245   96722 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467619.564603   96722 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7341549a8040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c4_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-3c573171-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1928.97it/s]
+(MainProcess pid=96722) INFO 11-23 21:00:28 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  43.99     
+Total input tokens:                      65840     
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.73      
+Output token throughput (tok/s):         186.23    
+Peak output token throughput (tok/s):    188.00    
+Peak concurrent requests:                7.00      
+Total token throughput (tok/s):          1682.97   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          67.99     
+Median TTFT (ms):                        66.81     
+P50 TTFT (ms):                           66.81     
+P95 TTFT (ms):                           88.22     
+P99 TTFT (ms):                           88.66     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          17.59     
+Median TPOT (ms):                        19.65     
+P50 TPOT (ms):                           19.65     
+P95 TPOT (ms):                           21.29     
+P99 TPOT (ms):                           21.30     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           25.99     
+Median ITL (ms):                         21.29     
+P50 ITL (ms):                            21.29     
+P95 ITL (ms):                            21.40     
+P99 ITL (ms):                            21.47     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4552.88   
+Median E2EL (ms):                        5077.21   
+P50 E2EL (ms):                           5077.21   
+P95 E2EL (ms):                           5505.67   
+P99 E2EL (ms):                           5516.72   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "__new__"
+ - leaked function "get_insertion_block"
+ - leaked function "create_async_tma_scatter"
+ - leaked function "get_bool_attr"
+ - leaked function "create_condition_op"
+ - leaked function "get_else_block"
+ - leaked function "create_si_to_fp"
+ - leaked function "create_atomic_store"
+ - leaked function "__str__"
+ - leaked function "create_warp_pipeline_border"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467680.954232   96919 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467681.907704   96919 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467681.911097   96919 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x73342ddac040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c4_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-38322355-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2079.73it/s]
+(MainProcess pid=96919) INFO 11-23 21:01:30 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  43.99     
+Total input tokens:                      65840     
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.73      
+Output token throughput (tok/s):         186.24    
+Peak output token throughput (tok/s):    188.00    
+Peak concurrent requests:                7.00      
+Total token throughput (tok/s):          1683.04   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          68.01     
+Median TTFT (ms):                        66.86     
+P50 TTFT (ms):                           66.86     
+P95 TTFT (ms):                           88.38     
+P99 TTFT (ms):                           88.42     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          17.59     
+Median TPOT (ms):                        19.64     
+P50 TPOT (ms):                           19.64     
+P95 TPOT (ms):                           21.29     
+P99 TPOT (ms):                           21.29     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           25.98     
+Median ITL (ms):                         21.29     
+P50 ITL (ms):                            21.29     
+P95 ITL (ms):                            21.40     
+P99 ITL (ms):                            21.47     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4552.79   
+Median E2EL (ms):                        5076.50   
+P50 E2EL (ms):                           5076.50   
+P95 E2EL (ms):                           5506.02   
+P99 E2EL (ms):                           5516.44   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_unit_attr"
+ - leaked function "create_buffer_load"
+ - leaked function "create_warp_pipeline_border"
+ - leaked function "get_context"
+ - leaked function "get_bf16_ty"
+ - leaked function "create_mul"
+ - leaked function "__repr__"
+ - leaked function "get_before"
+ - leaked function "__ne__"
+ - leaked function "get_fp8e4nv_ty"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467743.397958   97116 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467744.352867   97116 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467744.356272   97116 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x74801f1b80e0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c8_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-a50f1a65-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1720.74it/s]
+(MainProcess pid=97116) INFO 11-23 21:02:33 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  47.72     
+Total input tokens:                      131677    
+Total generated tokens:                  16384     
+Request throughput (req/s):              1.34      
+Output token throughput (tok/s):         343.32    
+Peak output token throughput (tok/s):    368.00    
+Peak concurrent requests:                15.00     
+Total token throughput (tok/s):          3102.59   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          194.85    
+Median TTFT (ms):                        134.69    
+P50 TTFT (ms):                           134.69    
+P95 TTFT (ms):                           419.79    
+P99 TTFT (ms):                           561.17    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          18.97     
+Median TPOT (ms):                        21.78     
+P50 TPOT (ms):                           21.78     
+P95 TPOT (ms):                           23.37     
+P99 TPOT (ms):                           23.80     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           27.82     
+Median ITL (ms):                         21.77     
+P50 ITL (ms):                            21.77     
+P95 ITL (ms):                            21.92     
+P99 ITL (ms):                            104.28    
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          5030.98   
+Median E2EL (ms):                        5622.80   
+P50 E2EL (ms):                           5622.80   
+P95 E2EL (ms):                           6273.25   
+P99 E2EL (ms):                           6519.85   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_bool_attr"
+ - leaked function "create_branch"
+ - leaked function "param_types"
+ - leaked function "create_async_copy_global_to_local"
+ - leaked function "create_buffer_atomic_rmw"
+ - leaked function "create_maxui"
+ - leaked function "create_atomic_cas"
+ - leaked function "push_back"
+ - leaked function "create_tcgen05_commit"
+ - leaked function "pseudoinvert"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467809.979937   97326 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467810.937100   97326 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467810.940455   97326 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7e3e5e7ac040>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c8_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-97ce1aa6-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1790.43it/s]
+(MainProcess pid=97326) INFO 11-23 21:03:39 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  45.07     
+Total input tokens:                      131677    
+Total generated tokens:                  16384     
+Request throughput (req/s):              1.42      
+Output token throughput (tok/s):         363.55    
+Peak output token throughput (tok/s):    368.00    
+Peak concurrent requests:                13.00     
+Total token throughput (tok/s):          3285.37   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          71.82     
+Median TTFT (ms):                        67.99     
+P50 TTFT (ms):                           67.99     
+P95 TTFT (ms):                           94.14     
+P99 TTFT (ms):                           117.41    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          18.23     
+Median TPOT (ms):                        21.15     
+P50 TPOT (ms):                           21.15     
+P95 TPOT (ms):                           21.80     
+P99 TPOT (ms):                           21.80     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           26.54     
+Median ITL (ms):                         21.80     
+P50 ITL (ms):                            21.80     
+P95 ITL (ms):                            21.92     
+P99 ITL (ms):                            22.39     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4720.25   
+Median E2EL (ms):                        5458.50   
+P50 E2EL (ms):                           5458.50   
+P95 E2EL (ms):                           5626.31   
+P99 E2EL (ms):                           5649.29   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "__new__"
+ - leaked function "create_bitcast"
+ - leaked function "create_histogram"
+ - leaked function "get_region"
+ - leaked function ""
+ - leaked function "move_before"
+ - leaked function "create_ui_to_fp"
+ - leaked function "create_async_tdm_wait"
+ - leaked function "get_shared_bank_conflicts"
+ - leaked function ""
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467873.690114   97532 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467874.648306   97532 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467874.651674   97532 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7717857a80e0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=2048, random_output_len=256, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='medium_c8_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-509a23a5-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1772.18it/s]
+(MainProcess pid=97532) INFO 11-23 21:04:43 [utils.py:88] Sampling input_len from [2048, 2048] and output_len from [256, 256]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  45.07     
+Total input tokens:                      131677    
+Total generated tokens:                  16384     
+Request throughput (req/s):              1.42      
+Output token throughput (tok/s):         363.52    
+Peak output token throughput (tok/s):    368.00    
+Peak concurrent requests:                13.00     
+Total token throughput (tok/s):          3285.10   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          71.87     
+Median TTFT (ms):                        67.92     
+P50 TTFT (ms):                           67.92     
+P95 TTFT (ms):                           95.44     
+P99 TTFT (ms):                           117.88    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          18.23     
+Median TPOT (ms):                        21.15     
+P50 TPOT (ms):                           21.15     
+P95 TPOT (ms):                           21.80     
+P99 TPOT (ms):                           21.80     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           26.54     
+Median ITL (ms):                         21.80     
+P50 ITL (ms):                            21.80     
+P95 ITL (ms):                            21.94     
+P99 ITL (ms):                            22.33     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4720.62   
+Median E2EL (ms):                        5460.10   
+P50 E2EL (ms):                           5460.10   
+P95 E2EL (ms):                           5628.38   
+P99 E2EL (ms):                           5659.38   
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "block_scaled_matmul_mxfp8"
+ - leaked function "get_int1_ty"
+ - leaked function "create_fp_to_fp"
+ - leaked function "identity_1d"
+ - leaked function "create_icmpSGT"
+ - leaked function "__init__"
+ - leaked function "create_ashr"
+ - leaked function "create_map_elementwise_ret"
+ - leaked function "create_gather"
+ - leaked function "__init__"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795467937.524881   98242 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795467938.475660   98242 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795467938.479073   98242 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7bb1aabb0c20>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c1_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-9c7b90e7-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1811.79it/s]
+(MainProcess pid=98242) INFO 11-23 21:05:47 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  178.12    
+Total input tokens:                      131226    
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.09      
+Output token throughput (tok/s):         45.99     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          782.73    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          360.97    
+Median TTFT (ms):                        383.02    
+P50 TTFT (ms):                           383.02    
+P95 TTFT (ms):                           383.67    
+P99 TTFT (ms):                           383.78    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.34     
+Median TPOT (ms):                        6.34      
+P50 TPOT (ms):                           6.34      
+P95 TPOT (ms):                           21.07     
+P99 TPOT (ms):                           21.08     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           34.17     
+Median ITL (ms):                         21.08     
+P50 ITL (ms):                            21.08     
+P95 ITL (ms):                            21.19     
+P99 ITL (ms):                            21.27     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          6154.84   
+Median E2EL (ms):                        3619.04   
+P50 E2EL (ms):                           3619.04   
+P95 E2EL (ms):                           11150.02  
+P99 E2EL (ms):                           11150.03  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_context"
+ - leaked function "verify"
+ - leaked function "create_fdiv"
+ - leaked function "add_fn_target_feature"
+ - leaked function "create_convert_layout"
+ - leaked function "merge_block_before"
+ - leaked function "create_int_cast"
+ - leaked function "is_external_linkage"
+ - leaked function "create_async_tdm_fused_copy_global_to_local"
+ - leaked function "is_injective"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468172.795418   98459 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468173.750585   98459 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468173.753998   98459 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7105a3fb8040>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c1_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-03b02f14-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2006.96it/s]
+(MainProcess pid=98459) INFO 11-23 21:09:42 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  174.39    
+Total input tokens:                      131226    
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.09      
+Output token throughput (tok/s):         46.98     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          799.48    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          63.47     
+Median TTFT (ms):                        65.91     
+P50 TTFT (ms):                           65.91     
+P95 TTFT (ms):                           66.33     
+P99 TTFT (ms):                           66.33     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.41     
+Median TPOT (ms):                        6.38      
+P50 TPOT (ms):                           6.38      
+P95 TPOT (ms):                           21.21     
+P99 TPOT (ms):                           21.21     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           34.38     
+Median ITL (ms):                         21.21     
+P50 ITL (ms):                            21.21     
+P95 ITL (ms):                            21.30     
+P99 ITL (ms):                            21.34     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          5893.28   
+Median E2EL (ms):                        3322.64   
+P50 E2EL (ms):                           3322.64   
+P95 E2EL (ms):                           10901.45  
+P99 E2EL (ms):                           10901.53  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "create_yield_op"
+ - leaked function "get_string_attr"
+ - leaked function "create_icmpEQ"
+ - leaked function "get_loc"
+ - leaked function "__str__"
+ - leaked function ""
+ - leaked function "create_srem"
+ - leaked function "create_grid_dependency_launch_dependents"
+ - leaked function ""
+ - leaked function "create_convert_layout"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468403.998609   98675 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468404.949597   98675 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468404.952981   98675 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7ce6c2fb80e0>, trust_remote_code=False, seed=42, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=1, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c1_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-ebdc3932-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1805.17it/s]
+(MainProcess pid=98675) INFO 11-23 21:13:33 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 1
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             1         
+Benchmark duration (s):                  174.39    
+Total input tokens:                      131226    
+Total generated tokens:                  8192      
+Request throughput (req/s):              0.09      
+Output token throughput (tok/s):         46.97     
+Peak output token throughput (tok/s):    48.00     
+Peak concurrent requests:                2.00      
+Total token throughput (tok/s):          799.44    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          63.92     
+Median TTFT (ms):                        66.32     
+P50 TTFT (ms):                           66.32     
+P95 TTFT (ms):                           67.20     
+P99 TTFT (ms):                           67.44     
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.41     
+Median TPOT (ms):                        6.38      
+P50 TPOT (ms):                           6.38      
+P95 TPOT (ms):                           21.21     
+P99 TPOT (ms):                           21.21     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           34.38     
+Median ITL (ms):                         21.21     
+P50 ITL (ms):                            21.21     
+P95 ITL (ms):                            21.30     
+P99 ITL (ms):                            21.36     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          5893.71   
+Median E2EL (ms):                        3323.35   
+P50 E2EL (ms):                           3323.35   
+P95 E2EL (ms):                           10901.68  
+P99 E2EL (ms):                           10901.82  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_loc"
+ - leaked function "create_icmpNE"
+ - leaked function "create_unsplat"
+ - leaked function "set_insertion_point_to_end"
+ - leaked function "replace_use_in_block_with"
+ - leaked function "create_scaled_downcast_fp4"
+ - leaked function "create_fdiv"
+ - leaked function "create_async_tdm_scatter"
+ - leaked function "__eq__"
+ - leaked function "create_async_wait_group"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468635.186569   99797 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468636.139322   99797 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468636.142709   99797 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7049fafb4040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c4_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-2cfa983e-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1890.82it/s]
+(MainProcess pid=99797) INFO 11-23 21:17:24 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  97.31     
+Total input tokens:                      262448    
+Total generated tokens:                  16384     
+Request throughput (req/s):              0.33      
+Output token throughput (tok/s):         168.36    
+Peak output token throughput (tok/s):    184.00    
+Peak concurrent requests:                7.00      
+Total token throughput (tok/s):          2865.32   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          448.06    
+Median TTFT (ms):                        336.99    
+P50 TTFT (ms):                           336.99    
+P95 TTFT (ms):                           1265.93   
+P99 TTFT (ms):                           1540.73   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          12.46     
+Median TPOT (ms):                        8.08      
+P50 TPOT (ms):                           8.08      
+P95 TPOT (ms):                           23.76     
+P99 TPOT (ms):                           24.72     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           38.06     
+Median ITL (ms):                         22.41     
+P50 ITL (ms):                            22.41     
+P95 ITL (ms):                            22.64     
+P99 ITL (ms):                            100.04    
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          6813.43   
+Median E2EL (ms):                        5011.77   
+P50 E2EL (ms):                           5011.77   
+P95 E2EL (ms):                           13209.46  
+P99 E2EL (ms):                           13251.80  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "remove_fn_attr"
+ - leaked function "create_buffer_store"
+ - leaked function "new_block"
+ - leaked function "create_icmpSGE"
+ - leaked function "is_declaration"
+ - leaked function "get_shape_from_tensor"
+ - leaked function ""
+ - leaked function "create_warp_return"
+ - leaked function "add_fn_asan_attr"
+ - leaked function "get_fp64"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468758.244962  100255 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468759.199582  100255 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468759.202979  100255 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7c1bf19b8040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c4_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-8fb28c4c-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1988.41it/s]
+(MainProcess pid=100255) INFO 11-23 21:19:27 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  92.91     
+Total input tokens:                      262448    
+Total generated tokens:                  16384     
+Request throughput (req/s):              0.34      
+Output token throughput (tok/s):         176.34    
+Peak output token throughput (tok/s):    180.00    
+Peak concurrent requests:                7.00      
+Total token throughput (tok/s):          3001.09   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          95.70     
+Median TTFT (ms):                        92.91     
+P50 TTFT (ms):                           92.91     
+P95 TTFT (ms):                           122.22    
+P99 TTFT (ms):                           162.43    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.38     
+Median TPOT (ms):                        6.77      
+P50 TPOT (ms):                           6.77      
+P95 TPOT (ms):                           22.54     
+P99 TPOT (ms):                           22.55     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           35.32     
+Median ITL (ms):                         22.53     
+P50 ITL (ms):                            22.53     
+P95 ITL (ms):                            22.64     
+P99 ITL (ms):                            22.72     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          5911.07   
+Median E2EL (ms):                        3554.48   
+P50 E2EL (ms):                           3554.48   
+P95 E2EL (ms):                           11608.05  
+P99 E2EL (ms):                           11618.22  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "reset_type"
+ - leaked function "create_rsqrt"
+ - leaked function "get_int8_ty"
+ - leaked function "get_partition_op_holder"
+ - leaked function ""
+ - leaked function "__new__"
+ - leaked function ""
+ - leaked function "set_calling_conv"
+ - leaked function "zeros_1d"
+ - leaked function "empty"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468876.927454  100702 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468877.883420  100702 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468877.886851  100702 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x79f9e2fb4040>, trust_remote_code=False, seed=42, num_prompts=32, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=4, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c4_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-51a5ea33-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1933.86it/s]
+(MainProcess pid=100702) INFO 11-23 21:21:26 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 4
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     32        
+Failed requests:                         0         
+Maximum request concurrency:             4         
+Benchmark duration (s):                  92.91     
+Total input tokens:                      262448    
+Total generated tokens:                  16384     
+Request throughput (req/s):              0.34      
+Output token throughput (tok/s):         176.35    
+Peak output token throughput (tok/s):    180.00    
+Peak concurrent requests:                7.00      
+Total token throughput (tok/s):          3001.25   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          95.75     
+Median TTFT (ms):                        93.08     
+P50 TTFT (ms):                           93.08     
+P95 TTFT (ms):                           121.61    
+P99 TTFT (ms):                           161.98    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.38     
+Median TPOT (ms):                        6.77      
+P50 TPOT (ms):                           6.77      
+P95 TPOT (ms):                           22.54     
+P99 TPOT (ms):                           22.55     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           35.32     
+Median ITL (ms):                         22.53     
+P50 ITL (ms):                            22.53     
+P95 ITL (ms):                            22.65     
+P99 ITL (ms):                            22.74     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          5910.86   
+Median E2EL (ms):                        3554.07   
+P50 E2EL (ms):                           3554.07   
+P95 E2EL (ms):                           11608.23  
+P99 E2EL (ms):                           11617.28  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "create_while_op"
+ - leaked function "create_rsqrt"
+ - leaked function "create_async_copy_lds_barrier_arrive"
+ - leaked function "create_fence_async_shared"
+ - leaked function "create_sin"
+ - leaked function "create_split"
+ - leaked function "create_lds_barrier_arrive"
+ - leaked function "push_front"
+ - leaked function "get_after"
+ - leaked function "add_fn_attr"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795468995.605640  101139 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795468996.557807  101139 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795468996.561198  101139 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7f7f1cda4c20>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c8_t1.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-402689d3-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 1983.94it/s]
+(MainProcess pid=101139) INFO 11-23 21:23:25 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  112.74    
+Total input tokens:                      524893    
+Total generated tokens:                  32768     
+Request throughput (req/s):              0.57      
+Output token throughput (tok/s):         290.64    
+Peak output token throughput (tok/s):    352.00    
+Peak concurrent requests:                11.00     
+Total token throughput (tok/s):          4946.32   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          649.59    
+Median TTFT (ms):                        394.63    
+P50 TTFT (ms):                           394.63    
+P95 TTFT (ms):                           1795.56   
+P99 TTFT (ms):                           4439.43   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          14.48     
+Median TPOT (ms):                        8.70      
+P50 TPOT (ms):                           8.70      
+P95 TPOT (ms):                           33.47     
+P99 TPOT (ms):                           38.18     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           43.55     
+Median ITL (ms):                         24.12     
+P50 ITL (ms):                            24.12     
+P95 ITL (ms):                            24.48     
+P99 ITL (ms):                            112.99    
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          8050.89   
+Median E2EL (ms):                        5010.02   
+P50 E2EL (ms):                           5010.02   
+P95 E2EL (ms):                           19960.30  
+P99 E2EL (ms):                           21279.04  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "get_result"
+ - leaked function "create_tmem_subslice"
+ - leaked function "id"
+ - leaked function "create_async_copy_mbarrier_arrive"
+ - leaked function ""
+ - leaked function "create_local_alloc"
+ - leaked function "create_make_range"
+ - leaked function "__str__"
+ - leaked function "get_mma_layout"
+ - leaked function "create_descriptor_store"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795469135.594707  102086 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795469136.548201  102086 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795469136.551550  102086 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7a70d91a4cc0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c8_t2.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-78de8e0c-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2005.64it/s]
+(MainProcess pid=102086) INFO 11-23 21:25:45 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  100.38    
+Total input tokens:                      524893    
+Total generated tokens:                  32768     
+Request throughput (req/s):              0.64      
+Output token throughput (tok/s):         326.43    
+Peak output token throughput (tok/s):    336.00    
+Peak concurrent requests:                12.00     
+Total token throughput (tok/s):          5555.35   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          109.54    
+Median TTFT (ms):                        98.72     
+P50 TTFT (ms):                           98.72     
+P95 TTFT (ms):                           204.56    
+P99 TTFT (ms):                           289.11    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          12.34     
+Median TPOT (ms):                        7.71      
+P50 TPOT (ms):                           7.71      
+P95 TPOT (ms):                           24.32     
+P99 TPOT (ms):                           24.36     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           38.08     
+Median ITL (ms):                         24.30     
+P50 ITL (ms):                            24.30     
+P95 ITL (ms):                            24.45     
+P99 ITL (ms):                            24.59     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          6414.68   
+Median E2EL (ms):                        4079.03   
+P50 E2EL (ms):                           4079.03   
+P95 E2EL (ms):                           12522.73  
+P99 E2EL (ms):                           12664.50  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "move_before"
+ - leaked function "create_buffer_load"
+ - leaked function "create_tdm_prefetch"
+ - leaked function "__str__"
+ - leaked function "create_async_tma_copy_local_to_global"
+ - leaked function "restore_insertion_point"
+ - leaked function "create_scaled_upcast_fp4"
+ - leaked function "get_else_yield"
+ - leaked function "create_fp4_to_fp"
+ - leaked function "get_function_ty"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.htmlWARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795469263.267216  102522 pjrt_api.cc:119] GetPjrtApi was found for TPU at /home/ado/uv_venv/lib/python3.12/site-packages/libtpu/libtpu.so
+I0000 00:00:1795469264.218095  102522 device_rt.cc:166] PjRt runtime initialization deferred for tpu
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+I0000 00:00:1795469264.221454  102522 libtpu_version.cc:63] Setting libtpu version to: 0.0.50
+Pin memory is not supported on TPU.
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7b15239a80e0>, trust_remote_code=False, seed=42, num_prompts=64, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, custom_ensure_client_side_data=False, spec_bench_output_len=256, spec_bench_category=None, sharegpt_output_len=None, timed_trace_chunk_hash_size=16, timed_trace_sec_multiplier=1, timed_trace_label_timestamp='timestamp', timed_trace_label_input_length='input_length', timed_trace_label_output_length='output_length', timed_trace_label_hash_ids='hash_ids', blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=8192, random_output_len=512, random_range_ratio='0.0', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, bfcl_categories=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai-chat', base_url='http://localhost:8000', host='127.0.0.1', port=8000, endpoint='/v1/chat/completions', header=None, max_concurrency=8, model='google/gemma-4-E2B-it', input_len=None, output_len=None, tokenizer=None, tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, probe_request_rate=0.0, disable_tqdm=True, num_warmups=4, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/home/ado/gemma-bench/benchmarks/results/tpu-v6e-fp8', result_filename='long_c8_t3.json', ignore_eos=True, self_timed=None, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='50,95,99', goodput=None, request_id_prefix='bench-8ee8825f-', top_p=None, top_k=None, min_p=None, temperature=0.0, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, chat_template_kwargs=None, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False, log_config_file=None, logging_config=LoggingConfig(log_level='INFO', formatter='text', configure_logging=True, pylogging_config_file=None))
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 2079.99it/s]
+(MainProcess pid=102522) INFO 11-23 21:27:52 [utils.py:88] Sampling input_len from [8192, 8192] and output_len from [512, 512]
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Warming up with 4 requests...
+Warmup run completed.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     64        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  100.33    
+Total input tokens:                      524893    
+Total generated tokens:                  32768     
+Request throughput (req/s):              0.64      
+Output token throughput (tok/s):         326.61    
+Peak output token throughput (tok/s):    336.00    
+Peak concurrent requests:                12.00     
+Total token throughput (tok/s):          5558.39   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          107.33    
+Median TTFT (ms):                        97.79     
+P50 TTFT (ms):                           97.79     
+P95 TTFT (ms):                           203.15    
+P99 TTFT (ms):                           260.75    
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          12.33     
+Median TPOT (ms):                        7.64      
+P50 TPOT (ms):                           7.64      
+P95 TPOT (ms):                           24.32     
+P99 TPOT (ms):                           24.33     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           38.04     
+Median ITL (ms):                         24.30     
+P50 ITL (ms):                            24.30     
+P95 ITL (ms):                            24.47     
+P99 ITL (ms):                            25.73     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          6405.81   
+Median E2EL (ms):                        4052.50   
+P50 E2EL (ms):                           4052.50   
+P95 E2EL (ms):                           12527.94  
+P99 E2EL (ms):                           12604.16  
+==================================================
+nanobind: leaked 4 instances!
+nanobind: leaked 64 types!
+ - leaked type "triton._C.libtriton.ir.location"
+ - leaked type "TMEM_LOAD_REDUCE_MODIFIER"
+ - leaked type "triton._C.libtriton.ir.block"
+ - leaked type "triton._C.libtriton.gluon_ir.GluonOpBuilder"
+ - leaked type "triton._C.libtriton.ir.builder"
+ - leaked type "triton._C.libtriton.nvidia.cublas.CublasLt"
+ - leaked type "triton._C.libtriton.ir.integer_attr"
+ - leaked type "ATOMIC_OP"
+ - leaked type "PROPAGATE_NAN"
+ - leaked type "METRIC_TYPE"
+ - ... skipped remainder
+nanobind: leaked 514 functions!
+ - leaked function "set_attr"
+ - leaked function "create_async_tma_store_wait"
+ - leaked function "create_scaled_upcast_fp4"
+ - leaked function "create_fcmpUEQ"
+ - leaked function "gemm"
+ - leaked function "get_fp16"
+ - leaked function "create_precise_divf"
+ - leaked function "get_function_signature"
+ - leaked function "get_int1_ty"
+ - leaked function "is_fp16"
+ - ... skipped remainder
+nanobind: this is likely caused by a reference counting issue in the binding code.
+See https://nanobind.readthedocs.io/en/latest/refleaks.html[1/27] short_c1_t1.json
+[2/27] short_c1_t2.json
+[3/27] short_c1_t3.json
+[4/27] short_c4_t1.json
+[5/27] short_c4_t2.json
+[6/27] short_c4_t3.json
+[7/27] short_c8_t1.json
+[8/27] short_c8_t2.json
+[9/27] short_c8_t3.json
+[10/27] medium_c1_t1.json
+[11/27] medium_c1_t2.json
+[12/27] medium_c1_t3.json
+[13/27] medium_c4_t1.json
+[14/27] medium_c4_t2.json
+[15/27] medium_c4_t3.json
+[16/27] medium_c8_t1.json
+[17/27] medium_c8_t2.json
+[18/27] medium_c8_t3.json
+[19/27] long_c1_t1.json
+[20/27] long_c1_t2.json
+[21/27] long_c1_t3.json
+[22/27] long_c4_t1.json
+[23/27] long_c4_t2.json
+[24/27] long_c4_t3.json
+[25/27] long_c8_t1.json
+[26/27] long_c8_t2.json
+[27/27] long_c8_t3.json

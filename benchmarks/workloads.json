@@ -1,0 +1,19 @@
+{
+  "model": "google/gemma-4-E2B-it",
+  "seed": 42,
+  "temperature": 0.0,
+  "endpoint": "/v1/chat/completions",
+  "backend": "openai-chat",
+  "workloads": {
+    "short": {"input_len": 128, "output_len": 128},
+    "medium": {"input_len": 2048, "output_len": 256},
+    "long": {"input_len": 8192, "output_len": 512}
+  },
+  "concurrencies": [1, 4, 8],
+  "prompts_per_slot": 8,
+  "min_prompts": 16,
+  "num_warmups": 4,
+  "trials": 3,
+  "percentile_metrics": "ttft,tpot,itl,e2el",
+  "metric_percentiles": "50,95,99"
+}

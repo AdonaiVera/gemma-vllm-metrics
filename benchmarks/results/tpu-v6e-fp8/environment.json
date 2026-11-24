@@ -1,0 +1,85 @@
+{
+  "env": "tpu-v6e-fp8",
+  "base_url": "http://localhost:8000",
+  "started_at": "2026-11-23T20:45:44+0000",
+  "client": "local vllm CLI",
+  "server_version": {
+    "version": "0.33.0"
+  },
+  "served_models": {
+    "object": "list",
+    "data": [
+      {
+        "id": "google/gemma-4-E2B-it",
+        "object": "model",
+        "created": 1795466744,
+        "owned_by": "vllm",
+        "root": "google/gemma-4-E2B-it",
+        "parent": null,
+        "max_model_len": 9216,
+        "permission": [
+          {
+            "id": "modelperm-b1bdbcbad15b00b8",
+            "object": "model_permission",
+            "created": 1795466744,
+            "allow_create_engine": false,
+            "allow_sampling": true,
+            "allow_logprobs": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "allow_fine_tuning": false,
+            "organization": "*",
+            "group": null,
+            "is_blocking": false
+          }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "hardware": "TPU v6e-1",
+    "engine": "vllm-torchtpu",
+    "precision": "fp8",
+    "checkpoint": "google/gemma-4-E2B-it",
+    "kv_cache_dtype": "fp8_e5m2 (set automatically by vllm-torchtpu on v6e; the run script had labelled this \"auto\")",
+    "max_model_len": "9216",
+    "max_num_seqs": "8",
+    "server_version": "{\"version\":\"0.33.0\"}",
+    "packages": "",
+    "extra_flags": "--async-scheduling",
+    "tool_flags": "--enable-auto-tool-choice --tool-call-parser gemma4",
+    "libtpu": "0.0.50 (from log; the packages field came back empty)"
+  },
+  "workloads": {
+    "model": "google/gemma-4-E2B-it",
+    "seed": 42,
+    "temperature": 0.0,
+    "endpoint": "/v1/chat/completions",
+    "backend": "openai-chat",
+    "workloads": {
+      "short": {
+        "input_len": 128,
+        "output_len": 128
+      },
+      "medium": {
+        "input_len": 2048,
+        "output_len": 256
+      },
+      "long": {
+        "input_len": 8192,
+        "output_len": 512
+      }
+    },
+    "concurrencies": [
+      1,
+      4,
+      8
+    ],
+    "prompts_per_slot": 8,
+    "min_prompts": 16,
+    "num_warmups": 4,
+    "trials": 3,
+    "percentile_metrics": "ttft,tpot,itl,e2el",
+    "metric_percentiles": "50,95,99"
+  }
+}

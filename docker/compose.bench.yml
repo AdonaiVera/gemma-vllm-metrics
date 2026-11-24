@@ -1,0 +1,47 @@
+# Benchmark config for the local GPU baseline. Unlike compose.yml (tuned for
+# one interactive user), this serves the controlled checkpoint at the context
+# and concurrency the benchmark matrix needs. Same checkpoint and precision
+# (online fp8) are used on every environment; bf16 does not fit in 12GB.
+services:
+  vllm-bench:
+    image: vllm/vllm-openai:${VLLM_IMAGE_TAG:-gemma4}
+    container_name: gemma-vllm-bench
+    ports:
+      - "${VLLM_PORT:-8000}:8000"
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
+    command:
+      - "--model"
+      - "${BENCH_MODEL_ID:-google/gemma-4-E2B-it}"
+      - "--port"
+      - "8000"
+      - "--quantization"
+      - "fp8"
+      # 0.90 fails on a desktop GPU that already holds ~1.4GB for the display.
+      - "--gpu-memory-utilization"
+      - "0.85"
+      # Longest benchmark request is ~8.7K tokens (8192 in + 512 out).
+      - "--max-model-len"
+      - "9216"
+      - "--max-num-seqs"
+      - "8"
+      - "--enable-auto-tool-choice"
+      - "--tool-call-parser"
+      - "gemma4"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ipc: host
+
+volumes:
+  hf-cache:
+    # Reuse the volume created by compose.yml so the weights are not re-downloaded.
+    name: docker_hf-cache
+    external: true
