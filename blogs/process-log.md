@@ -83,8 +83,7 @@ bf16 weights that are no longer needed.
 - `gcloud` active account/project was `the work account` / `the production project`
   (a production project billed to a regular billing account). Nothing was
   created there.
-- The Gmail account has 19 projects; the "fiftyone" project
-  (`gen-lang-client-0254180497`) has billing disabled, and the only open
+- A second, personal project exists with billing disabled, and the only open
   billing accounts are regular ones. No sprint credit grant was visible, so
   TPU provisioning is waiting on the credits landing or a confirmed project.
 - CPU path: official GGUF repo is `ggml-org/gemma-4-E2B-it-GGUF`
@@ -228,7 +227,7 @@ bf16 weights that are no longer needed.
 - Added `deploy/gpu/` (preflight, create, sweep, watchdog, run, teardown), copied from the TPU scripts, with Google's own hard stop (`--max-run-duration` + DELETE) in addition to a software watchdog.
 - First create failed with a stockout in us-central1-a. A sweep over 22 zones in the US and Europe also failed; northamerica-northeast1-b granted an L4 `g2-standard-8` at 20:31Z.
 - Detached steps polled through marker files worked: setup took about 10 minutes, the GPU matrix about 55 minutes, the agent check about 1 minute.
-- The CPU matrix on the VM's 8 vCPUs was too slow. Only the 9 short cells finished before I had to pull results at 22:15Z, and I tore the VM down at 22:20Z, 1 hour 49 minutes after it started (about $1.70 at $0.94/h). The agent check was not run on the cloud CPU.
+- The CPU matrix on the VM's 8 vCPUs was too slow (superseded by the entry below: the rest ran on a second VM). Only the 9 short cells finished before I had to pull results at 22:15Z, and I tore the VM down at 22:20Z, 1 hour 49 minutes after it started (about $1.70 at $0.94/h). The agent check was not run on the cloud CPU.
 - Mistakes worth remembering: my progress monitor showed nothing because a `cut` in the filter buffered its output, so the first view of how far along the run was came late; and `pkill -f` matched my own shell again (exit 144) so the first teardown attempt did nothing. The VM was deleted a minute later with the plain teardown script.
 - Before publishing I moved the account and project names into an untracked `config.local.sh`.
 
@@ -238,3 +237,11 @@ bf16 weights that are no longer needed.
 - The medium cells and the long concurrency-1 cell finished, and the agent check ran (67%, 7.1 s per task). VM running time: about 1 hour 33 minutes.
 - Time to first token on the cloud CPU's medium c4/c8 and long cells looks wrong (median near 0 next to a p95 of minutes); I reported it as unreliable instead of guessing the cause.
 - This time I checked the run script's own result before reporting, after a status message that was out of date because the run had already finished.
+
+## Methodology correction: prefix cache (2026-11-24)
+
+- An independent review of the draft noticed that for the TPU and L4 the long-prompt first-token times in trials 2 and 3 are far below trial 1 (L4 8K at c1: 750, 83, 82 ms), while the local GPU is flat (583 ms every trial).
+- Cause: the trials reuse the same fixed-seed prompts and vLLM's prefix cache is on by default. The L4 and TPU server logs show an 86% prefix cache hit rate. The local card's KV cache holds 48,512 tokens, so it can't keep sixteen 8K prompts and doesn't hit.
+- Consequence: the earlier headline numbers averaged all trials and flattered the L4 (305 ms) and TPU (172 ms) first-token times, which also made the L4 look faster than the local card at 8K. With trial 1 only the order is TPU 383 ms, local 583 ms, L4 750 ms. Long-prompt throughput also drops on the L4 and TPU (c8: L4 325 vs 404, TPU 291 vs 326 tok/s). Everything in the blog now uses trial 1; the all-trials averages stay in `analysis_all_trials.csv`.
+- Also found: the TPU's medium and long cells have per-request latencies that don't add up to wall-clock time (about 11 s per long request by duration vs 6.2 s mean end-to-end), so its first-token time is flagged as indicative.
+- Better fix for a rerun: disable prefix caching, or use a different seed per trial.

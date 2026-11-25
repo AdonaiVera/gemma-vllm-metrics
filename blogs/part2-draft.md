@@ -26,23 +26,27 @@ these four facts, all measured:
    You are not buying tokens, you are buying hours of a machine being on.
 2. **Every environment gave the same answers.** The agent passed 12 of 18
    runs (67%) on the local GPU, the cloud GPU, the TPU and the CPU, with 100%
-   valid tool calls and identical tool-call traces. Pick on speed, cost and effort, not quality.
+   valid tool calls and the same tool calls and arguments (the CPU's JSON
+   differs only in whitespace). The weights match everywhere except the CPU,
+   which uses a GGUF build, and the TPU also used an fp8 KV cache. Pick on
+   speed, cost and effort, not quality.
 3. **All of them feel interactive for one user.** An agent task took 0.6 s
-   on the local GPU, 1.0 s on the cloud L4, 1.8 s on the TPU 3.2 s on
+   on the local GPU, 1.0 s on the cloud L4, 1.8 s on the TPU, 3.2 s on
    the local CPU and 7.1 s on the 8-vCPU cloud CPU.
 4. **The cost difference is about utilization.** A cloud L4 VM costs about
    $0.94 an hour ($686 a month always on, $165 if on 8 hours a weekday). A
    TPU v6e-1 costs $2.70 an hour ($1,970 always on, $475 for 8 hours a
-   weekday) and was four to five times more expensive per token than the L4.
+   weekday) and was about three to five times more expensive per token than the L4 at
+   concurrency 8.
    The local GPU costs about $31 a month in electricity, plus the card you
    already own.
 
 | If you are... | Run it on | Why |
 |---|---|---|
-| One person exploring datasets | Your own GPU, or the CPU if you have none | Fastest per stream (100-128 tok/s); the CPU still answers a task in about 3 s |
-| A small team sharing one endpoint | A cloud L4 (or any GPU you keep on) | 377-538 tok/s at 8 concurrent requests, about $0.5-0.7 per million tokens, no special capacity request beyond finding a zone with stock |
-| Long prompts (8K+) and low first-token latency | The TPU, if you can keep it busy | First token in 172 ms, versus 305 ms on the L4, 583 ms on the local GPU and 17 s on the CPU |
-| Offline batch jobs | A cloud GPU first; TPU Flex-start only if you can get it | L4 is about $0.5 per million tokens at concurrency 8; TPU Flex-start is about $1.1 but needs capacity |
+| One person exploring datasets | Your own GPU, or the CPU if you have none | Fastest per stream (100-127 tok/s); the CPU still answers a task in about 3 s |
+| A small team sharing one endpoint | A cloud L4 (or any GPU you keep on) | 325-529 tok/s at 8 concurrent requests, about $0.5-0.8 per million tokens. Finding a zone with stock took effort (22 zones had none) |
+| Long prompts (8K+) and low first-token latency | Probably the TPU, if you can keep it busy | First token in about 380 ms versus about 580 ms on the local GPU, 750 ms on the L4 and 17 s on the local CPU. The TPU's timing for that cell has an inconsistency (see its results), so treat this as indicative |
+| Offline batch jobs | A cloud GPU first; TPU Flex-start only if you can get it | L4 is about $0.5-0.8 per million tokens at concurrency 8; TPU Flex-start is about $1.1-1.4 but needs capacity |
 | Planning to move to the larger Gemma 4 models | Test the TPU | That is the case it is built for, and I did not test it |
 
 The rest of the post shows where each number comes from. Monthly figures
@@ -110,28 +114,34 @@ so output lengths are comparable. That's 27 runs per environment. For every
 run the harness records the server version, hardware and settings next to the
 results, so a number never travels without its context.
 
+One methodology correction, found in review. The three trials reuse the same
+fixed-seed prompts, and vLLM caches prompt prefixes by default. On the L4 and
+the TPU the server log shows an 86% prefix cache hit rate, and trials 2 and 3
+show much lower first-token times than trial 1 (for the 8K prompt at
+concurrency 1: 750, 83 and 82 ms on the L4). The local card's KV cache holds
+only 48,512 tokens, so it can't keep sixteen 8K prompts around, and its
+trials look the same. Averaging all trials would flatter the machines with
+bigger caches, so **every result in this post uses trial 1, the cold-cache
+run**. The all-trials averages are in `benchmarks/results/analysis_all_trials.csv`.
+
 ## Results: local GPU baseline
 
-27 of 27 runs completed with zero failed requests. Each point is the mean of
-three trials.
+27 of 27 runs completed with zero failed requests. Each point is the cold-cache
+first trial. The charts here and in the sections below show all environments.
 
-![Output throughput by concurrency and workload](images/throughput_vs_concurrency.png)
-
-![p95 time to first token by concurrency and workload](images/ttft_p95_vs_concurrency.png)
-
-![Median time per output token](images/tpot_vs_concurrency.png)
+![Median time per output token, all environments](images/tpot_vs_concurrency.png)
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) |
 |---|---|---|---|---|---|---|
-| short | 1 | 127.6 | 16 | 18 | 7.8 | 1,008 |
-| short | 4 | 492.7 | 26 | 35 | 8.0 | 1,047 |
-| short | 8 | 947.3 | 43 | 52 | 8.2 | 1,097 |
-| medium | 1 | 120.7 | 53 | 55 | 8.1 | 2,148 |
-| medium | 4 | 450.5 | 58 | 147 | 8.6 | 2,373 |
-| medium | 8 | 686.6 | 322 | 619 | 10.1 | 3,249 |
-| long | 1 | 100.4 | 583 | 594 | 8.9 | 5,191 |
-| long | 4 | 288.4 | 1,185 | 1,698 | 11.7 | 7,371 |
-| long | 8 | 416.3 | 1,092 | 2,342 | 17.1 | 11,010 |
+| short | 1 | 127.3 | 20 | 21 | 7.8 | 1,007 |
+| short | 4 | 489.0 | 28 | 45 | 8.0 | 1,062 |
+| short | 8 | 935.9 | 68 | 84 | 8.2 | 1,118 |
+| medium | 1 | 117.3 | 117 | 119 | 8.1 | 2,212 |
+| medium | 4 | 425.2 | 90 | 344 | 8.8 | 2,639 |
+| medium | 8 | 748.6 | 102 | 566 | 9.3 | 3,216 |
+| long | 1 | 100.5 | 583 | 594 | 8.9 | 5,197 |
+| long | 4 | 288.5 | 1,198 | 1,726 | 11.7 | 7,433 |
+| long | 8 | 416.4 | 1,093 | 2,358 | 17.1 | 10,614 |
 
 What stands out:
 
@@ -212,13 +222,11 @@ CPU so far, because vLLM needs a reasoning parser to return it cleanly.
 That is a useful baseline: if TPU shows a different success rate or invalid
 tool calls with the same settings, the deployment caused it.
 
-![Agent task success per task on the local GPU](images/agent_eval_by_task.png)
-
 ## Cloud TPU v6e with vLLM-TorchTPU
 
 ### Getting a TPU was the hard part
 
-I asked for a single v6e chip and it took five attempts. Two Flex-start
+I asked for a single v6e chip and it took several attempts. Two Flex-start
 requests (one in a zone Google doesn't list for v6e Flex-start, one in a zone
 it does) sat in `WAITING_FOR_RESOURCES` for their full hour and failed with
 `Max start time passed`. An on-demand attempt was rejected outright, because
@@ -229,7 +237,7 @@ after about an hour and a half.
 
 Two lessons for anyone planning this:
 
-- **Quota is not capacity.** The project had a 512-chip v6e quota, and a
+- **Quota is not capacity.** The project had quota for the chip, and a
   request still waited for hours. Quota is also per zone: several zones had a
   limit of 0, so only `us-east5-a` and `us-east5-b` would even accept a request.
 - **The safety net matters.** Without a hard stop, I ran a watchdog script
@@ -262,19 +270,19 @@ the effect to be small, but I can't prove it.
 ### Results
 
 27 of 27 runs completed with zero failed requests. Same workloads, same
-client, three trials each.
+client; each point is the cold-cache first trial.
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) |
 |---|---|---|---|---|---|---|
-| short | 1 | 47.3 | 32 | 144 | 20.8 | 2,790 |
-| short | 4 | 176.7 | 66 | 1,327 | 21.2 | 4,018 |
-| short | 8 | 328.5 | 78 | 1,486 | 21.7 | 4,241 |
-| medium | 1 | 47.5 | 67 | 68 | 20.0 | 5,393 |
-| medium | 4 | 184.4 | 84 | 167 | 20.2 | 5,607 |
-| medium | 8 | 356.8 | 90 | 203 | 21.4 | 5,843 |
-| long | 1 | 46.6 | 172 | 172 | 6.4 | 10,984 |
-| long | 4 | 173.7 | 174 | 503 | 7.2 | 12,142 |
-| long | 8 | 314.6 | 197 | 734 | 8.0 | 15,004 |
+| short | 1 | 46.3 | 37 | 370 | 20.8 | 3,016 |
+| short | 4 | 158.4 | 71 | 3,842 | 21.2 | 6,532 |
+| short | 8 | 277.1 | 98 | 3,734 | 21.7 | 6,490 |
+| medium | 1 | 47.1 | 123 | 123 | 19.2 | 5,445 |
+| medium | 4 | 180.7 | 119 | 323 | 21.3 | 5,810 |
+| medium | 8 | 343.3 | 135 | 420 | 21.8 | 6,273 |
+| long | 1 | 46.0 | 383 | 384 | 6.3 | 11,150 |
+| long | 4 | 168.4 | 337 | 1,266 | 8.1 | 13,209 |
+| long | 8 | 290.6 | 395 | 1,796 | 8.7 | 19,960 |
 
 ![Output throughput by concurrency and workload, all environments](images/throughput_vs_concurrency.png)
 
@@ -283,26 +291,31 @@ client, three trials each.
 What stands out:
 
 - **For this small model, one v6e chip is not faster than a desktop GPU.**
-  A single stream decodes at about 47 tokens/s on the TPU against 100-128 on
+  A single stream decodes at about 46-47 tokens/s on the TPU against 100-127 on
   the RTX 4070 Ti, and at concurrency 8 the GPU is ahead on throughput too
-  (for example 947 vs 329 tokens/s on short requests).
-- **Long prompts are where the TPU wins.** At concurrency 1 the 8,192-token
-  prompt starts streaming in 172 ms on the TPU against 583 ms on the GPU,
-  and at concurrency 8 its p95 is 734 ms against 2,342 ms. Prefill is what
-  TPUs are good at.
+  (for example 936 vs 277 tokens/s on short requests).
+- **Long prompts are where the TPU looks best, with a caveat.** At
+  concurrency 1 the 8,192-token prompt starts streaming in 383 ms on the TPU,
+  against 583 ms on the local GPU and 750 ms on the L4, and at concurrency 8
+  the TPU's p95 is 1,796 ms against 2,358 ms (local) and 1,836 ms (L4). I'd
+  expect a TPU to be good at prefill, but I didn't test that explanation, and
+  the caveat below applies to exactly this cell.
 - **Throughput was still scaling at the top of the test.** The server was
   capped at 8 concurrent sequences, and TPU throughput grows almost linearly
-  up to that cap (47, 177, 329 tokens/s on short requests). Concurrency 8 is
+  up to that cap (46, 158, 277 tokens/s on short requests). Concurrency 8 is
   where my test stops, not where the chip does.
 - **The first requests are slow.** Short requests have a p95 time to first
-  token of 1.3-1.5 s at concurrency 4 and 8 against a 66-78 ms median, which
+  token of 3.7-3.8 s at concurrency 4 and 8 against a 71-98 ms median, which
   looks like first-use compilation of new batch shapes that four warm-up
   requests didn't cover. I'd warm up harder before drawing conclusions about
   tail latency.
 - **A number I don't trust.** For the long workload the benchmark reports a
-  per-token time of 6.4 ms, but throughput (46.6 tokens/s) and end-to-end
-  latency both say about 21 ms, like the short workload. I didn't have the VM
-  to chase it, so use throughput and end-to-end latency for the TPU.
+  per-token time of 6.3 ms, but throughput (46.0 tokens/s) says about 21 ms,
+  like the short workload. The per-request timings for the medium and long
+  cells also don't add up: at concurrency 1 the long run took about 11 s per
+  request by wall clock, but the reported mean end-to-end latency is 6.2 s. I
+  didn't have the VM to chase it, so use throughput for the TPU, and treat its
+  long-prompt first-token time as indicative.
 
 ![Agent task success per task, all environments](images/agent_eval_by_task.png)
 
@@ -329,27 +342,28 @@ so I did not depend on my own watchdog alone.
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) | Cost per 1M (on-demand) |
 |---|---|---|---|---|---|---|---|
-| short | 1 | 72.7 | 32 | 33 | 13.6 | 1,764 | $3.59 |
-| short | 4 | 280.4 | 56 | 68 | 13.9 | 1,835 | $0.93 |
-| short | 8 | 537.9 | 79 | 128 | 14.4 | 1,946 | $0.49 |
-| medium | 1 | 69.5 | 88 | 89 | 14.1 | 3,700 | $3.76 |
-| medium | 4 | 259.9 | 110 | 243 | 14.9 | 4,050 | $1.00 |
-| medium | 8 | 474.5 | 147 | 343 | 16.1 | 4,557 | $0.55 |
-| long | 1 | 63.9 | 305 | 309 | 15.1 | 8,058 | $4.09 |
-| long | 4 | 223.1 | 298 | 726 | 17.3 | 9,688 | $1.17 |
-| long | 8 | 377.3 | 391 | 915 | 20.6 | 11,963 | $0.69 |
+| short | 1 | 72.7 | 42 | 42 | 13.5 | 1,766 | $3.59 |
+| short | 4 | 279.4 | 67 | 78 | 13.9 | 1,846 | $0.93 |
+| short | 8 | 529.2 | 106 | 215 | 14.4 | 2,036 | $0.49 |
+| medium | 1 | 67.8 | 183 | 185 | 14.1 | 3,802 | $3.85 |
+| medium | 4 | 247.5 | 159 | 517 | 15.3 | 4,440 | $1.06 |
+| medium | 8 | 433.0 | 188 | 697 | 16.9 | 5,361 | $0.60 |
+| long | 1 | 60.7 | 750 | 757 | 15.1 | 8,499 | $4.30 |
+| long | 4 | 203.5 | 517 | 1,673 | 18.1 | 11,412 | $1.28 |
+| long | 8 | 324.7 | 600 | 1,836 | 23.3 | 15,450 | $0.80 |
 
 All 27 runs succeeded, with zero failures. The numbers line up with the
-hardware. A single stream decodes at 64-73 tokens/s (about 14 ms per token),
-roughly 55% of the local card, and throughput at concurrency 8 is 377-538
+hardware. A single stream decodes at 61-73 tokens/s (about 14 ms per token),
+roughly 55-65% of the local card, and throughput at concurrency 8 is 325-529
 tokens/s. The agent check matches every other environment: 67% success (12 of
 18), 100% valid tool calls, about 1.0 s per task.
 
-One result I did not expect: the L4's time to first token on the 8K prompt is
-better than the local GPU's (305 ms versus 583 ms at concurrency 1, and about
-0.4 s versus 1.1 s at concurrency 8). The cloud VM has a dedicated GPU, while
-the local card also drives a display and has half the memory, but I did not
-isolate the cause, so treat it as an observation and not an explanation.
+The first token on the 8K prompt is slower than the local card's at
+concurrency 1 (750 ms versus 583 ms), which fits the L4's lower compute and
+memory bandwidth. At concurrency 4 and 8 it is faster (517 and 600 ms versus
+1.2 and 1.1 s). The local card holds only 48,512 tokens of KV cache against
+the L4's 359,520, so eight 8K requests don't fit in it at once; I think that
+is why, but I didn't isolate it.
 
 The billed window was about 1 hour 49 minutes, roughly $1.70 at $0.94 per
 hour.
@@ -359,13 +373,13 @@ format (GGUF Q8_0), so this is labeled as not controlled. To keep the run
 short I used a reduced matrix: all three concurrencies for short requests
 with three trials, medium with one trial, and long at concurrency 1 only.
 13 cells, zero failures. I also ran the same llama.cpp setup on the cloud
-VM's 8 vCPUs, but that leg is partial, as described after the table.
+VM's 8 vCPUs, described after the table.
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) |
 |---|---|---|---|---|---|---|
-| short | 1 | 21.6 | 73 | 79 | 45.9 | 6,025 |
-| short | 4 | 38.3 | 366 | 634 | 109.3 | 14,615 |
-| short | 8 | 69.4 | 615 | 1,148 | 111.2 | 15,824 |
+| short | 1 | 21.6 | 74 | 78 | 46.0 | 6,042 |
+| short | 4 | 30.3 | 757 | 1,532 | 126.7 | 17,623 |
+| short | 8 | 65.4 | 1,386 | 2,934 | 111.4 | 17,574 |
 | medium | 1 | 15.0 | 4,808 | 5,074 | 49.3 | 17,716 |
 | medium | 4 | 22.4 | 5,728 | 19,223 | 140.3 | 58,095 |
 | medium | 8 | 39.0 | 6,003 | 36,310 | 132.4 | 85,977 |
@@ -377,22 +391,25 @@ token appears. Medium prompts at concurrency 8 reach a p95 time to first
 token of 36 seconds. It is a valid fallback for a single user and a
 non-starter for a shared endpoint.
 
-**Cloud CPU (the L4 VM's 8 vCPUs, GPU idle).** I ran the same llama.cpp
-setup and the same reduced matrix on the cloud VM after the GPU work, plus the
-agent check. The local machine's CPU has 24 threads; the cloud VM has 8. 13
+**Cloud CPU (a `g2-standard-8` VM's 8 vCPUs, GPU idle).** I ran the same
+llama.cpp setup and the same reduced matrix, plus the agent check. This leg
+spans two VMs of the same type: the short cells ran on the L4 VM in Montreal,
+and the medium cells, the long cell and the agent check on a second VM in
+Singapore, because the first one was deleted before the CPU matrix finished
+(about another 1 hour 33 minutes of billing). The local machine's CPU has 24 threads; the cloud VM has 8. 13
 cells, zero failures.
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) |
 |---|---|---|---|---|---|---|
-| short | 1 | 10.9 | 401 | 414 | 89.5 | 11,842 |
-| short | 4 | 20.9 | 842 | 1,359 | 194.5 | 26,732 |
-| short | 8 | 32.0 | 1,468 | 2,484 | 240.2 | 33,479 |
+| short | 1 | 10.5 | 924 | 952 | 89.5 | 12,353 |
+| short | 4 | 17.1 | 1,874 | 3,401 | 220.2 | 31,351 |
+| short | 8 | 30.0 | 3,439 | 6,472 | 241.4 | 36,935 |
 | medium | 1 | 6.7 | 13,016 | 13,080 | 101.3 | 39,089 |
 | medium | 4 | 11.1 | 584 | 119,086 | 256.6 | 128,900 |
 | medium | 8 | 15.4 | 789 | 188,165 | 311.1 | 208,144 |
 | long | 1 | 4.8 | 0 | 53 | 211.9 | 110,228 |
 
-The cloud CPU is about half as fast as the local one: 10.9 tokens/s at
+The cloud CPU is about half as fast as the local one: 10.5 tokens/s at
 concurrency 1 on short requests (21.6 locally), and 4.8 tokens/s on the long
 prompt (11.4 locally). An 8,192-token request takes about 110 seconds end to
 end at the 95th percentile. The agent check gave the same 67% (12 of 18) with
@@ -400,14 +417,14 @@ end at the 95th percentile. The agent check gave the same 67% (12 of 18) with
 CPU.
 
 One caution: I don't trust the time-to-first-token column for the medium
-concurrency 4 and 8 cells and the long cell on this VM. The median
-(0.6-0.8 s, and 0 ms for long) sits next to a 95th percentile of 53 to 188
-seconds, and the long cell's 212 ms per token only makes sense if the
-prefill time was counted as decoding. The most likely cause is the server
-streaming a first, empty chunk before the prompt was processed, and I didn't
-confirm it. Throughput and end-to-end latency don't depend on that, so use
-those. It confirms the point above: a CPU, local or rented, is a
-single-user fallback.
+concurrency 4 and 8 cells and the long cell on this VM. For medium the median
+(0.6-0.8 s) sits next to a 95th percentile of 119 and 188 seconds, and for
+long the median is 0 ms with a p95 of 53 ms, while a request took about 110
+seconds. Candidates are llama.cpp reusing a cached prompt (the warm-up
+requests use the same prompts) and the server streaming an empty first chunk
+before the prompt was processed. I didn't confirm either. Throughput and
+end-to-end latency don't depend on that, so use those. It confirms the point
+above: a CPU, local or rented, is a single-user fallback.
 
 ## Cost per million output tokens
 
@@ -435,10 +452,11 @@ the best case for every environment. The prices:
 - **CPU: not priced.** There's no honest hourly number for a machine I own,
   so it isn't on the chart.
 
-At concurrency 8 the L4 comes to about $0.49-0.69 per million output tokens
-(about $3.6-4.1 at concurrency 1), and the TPU to about $2.1-2.4 on-demand
-(about $1.1 with Flex-start, about $16 at concurrency 1). For this model the
-L4 is four to five times cheaper per token than the TPU. The
+At concurrency 8 the L4 comes to about $0.49-0.80 per million output tokens
+(about $3.6-4.3 at concurrency 1), and the TPU to about $2.2-2.7 on-demand
+(about $1.1-1.4 with Flex-start, about $16 at concurrency 1). For this model
+the L4 is roughly three to five times cheaper per token than the TPU, in the
+best case, and with a third-party L4 price. The
 local GPU is one to two orders of magnitude cheaper, because the electricity
 is cheap and the hardware is already paid for. That comparison flatters the
 GPU, so read it as "marginal cost once you own it".
@@ -481,26 +499,29 @@ Two consequences follow:
 
 | | Local GPU (RTX 4070 Ti) | Cloud GPU (L4) | Cloud TPU v6e-1 | CPU (llama.cpp) |
 |---|---|---|---|---|
-| Single-stream decode | 100-128 tok/s | 64-73 tok/s | 47 tok/s | 11-22 tok/s |
-| Time to first token, 8K prompt | 583 ms | 305 ms | 172 ms | 17 s |
-| Throughput at concurrency 8 | 416-947 tok/s | 377-538 tok/s | 315-357 tok/s | 11-69 tok/s |
-| Cost per 1M tokens at concurrency 8 | about $0.01-0.03 (electricity only) | about $0.49-0.69 | about $2.1-2.4 on-demand | not priced |
+| Single-stream decode | 100-127 tok/s | 61-73 tok/s | 46-47 tok/s | 11-22 local, 5-11 cloud |
+| Time to first token, 8K prompt, concurrency 1 | 583 ms | 750 ms | 383 ms (indicative) | 17 s local, unreliable on cloud |
+| Throughput at concurrency 8 | 416-936 tok/s | 325-529 tok/s | 277-343 tok/s | 39-65 local, 15-30 cloud |
+| Cost per 1M tokens at concurrency 8 | about $0.01-0.03 (electricity only) | about $0.49-0.80 | about $2.2-2.7 on-demand | not priced |
 | Agent success (thinking off) | 67% | 67% | 67% | 67% |
-| Agent time per task | 0.6 s | 1.0 s | 1.8 s | 3.2 s |
+| Agent time per task | 0.6 s | 1.0 s | 1.8 s | 3.2 s local, 7.1 s cloud |
 | Operational effort | one container | find a zone with stock, one VM | capacity, quota, 15 min compile | one container |
 
 Recommendation by use case (the table at the top has the same advice by
 who you are), with the caveat that this is one small model on one chip:
 
 - **Interactive, single user:** the local GPU. It's the fastest per stream and
-  the cheapest, if you have one.
-- **A small team on rented hardware:** the cloud L4, at about $0.5-0.7 per
-  million tokens and about $165 a month for working hours.
-- **Long-context prompts on a shared endpoint:** the TPU's prefill advantage
-  is real (172 ms versus 305 ms on the L4 and 583 ms on the local card at
-  8K), but it only pays if you keep it busy.
-- **Offline batch:** the L4 at about $0.5 per million tokens is the cheaper
-  rented option here; the TPU's Flex-start rate of about $1.1 is reasonable
+  the cheapest per token, if you already own one (the card itself isn't in
+  that price).
+- **A small team on rented hardware:** the cloud L4, at about $0.5-0.8 per
+  million tokens and about $165 a month for working hours, with the caveat
+  that the price is from third-party trackers.
+- **Long-context prompts on a shared endpoint:** the TPU looks best on first
+  token (383 ms versus 583 ms on the local card and 750 ms on the L4 at 8K),
+  but that cell's timings have an inconsistency, and it only pays if you keep
+  the chip busy.
+- **Offline batch:** the L4 at about $0.5-0.8 per million tokens is the cheaper
+  rented option here; the TPU's Flex-start rate of about $1.1-1.4 is reasonable
   too, but only if you can get the chip.
 - **A single user with no GPU:** the CPU works, slowly.
 
@@ -529,8 +550,27 @@ OpenAI-compatible endpoint.
 - The agent check is a small proxy for the Voxel51 Agent, not the full
   application.
 - Prices change. The TPU price is from search snippets of Google's pages, and the L4 price is from third-party trackers.
+- Trial 1 is the only trial used for every number, to avoid prefix-cache hits in later trials; that gives one sample per cell.
+- The cloud CPU leg ran on two VMs of the same type, in two regions.
 - The CPU legs used a reduced matrix (single trial for medium and long), and time to first token on the cloud CPU's medium and long cells is unreliable (see above).
 - The L4 is not the same card as the local RTX 4070 Ti, and I did not isolate why its 8K time to first token is better.
 - The monthly figures are arithmetic on hourly prices, not invoices.
 - The TPU ran with an fp8 KV cache chosen by the backend; the GPU did not.
 - The server cap of 8 sequences means no environment was pushed to saturation.
+
+## Follow-up tasks
+
+Four things I would do next, in order of value:
+
+1. **Test the larger Gemma 4 models on the TPU** (31B and 26B-A4B). This is the
+   case the TPU is built for and the one E2B can't show.
+2. **Run the agent check with thinking mode on for the GPU and TPU.** It needs
+   a reasoning parser configured in vLLM. On the CPU, thinking lifted success
+   from 67% to 83% at ten times the latency per task.
+3. **Run agent tasks under concurrent load**, to turn "one replica is probably
+   enough for a team" into a measurement.
+4. **Explain the TPU's long-workload per-token number.** The benchmark reports
+   6.3 ms, but throughput implies about 21 ms, and the per-request timings in
+   the medium and long cells don't match wall-clock time. It needs a second run with a
+   longer warm-up, which would also show whether the short-request tail
+   latency is first-use compilation.

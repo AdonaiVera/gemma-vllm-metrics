@@ -40,8 +40,16 @@ def env_color(env, known):
     return ENV_COLORS[known.index(env) % len(ENV_COLORS)]
 
 
-def aggregate(df):
-    """Mean across trials per (env, workload, concurrency)."""
+def aggregate(df, first_trial_only=False):
+    """Mean across trials per (env, workload, concurrency).
+
+    Trials reuse the same fixed-seed prompts, so with prefix caching on, trials 2
+    and 3 can hit the cache (86% hit rate on the L4 and TPU runs) while a server
+    with a small KV cache (the local 12 GB card on 8K prompts) cannot. Trial 1 is
+    the closest thing to a cold cache on every environment, so it is the default.
+    """
+    if first_trial_only:
+        df = df[df["trial"] == df.groupby(["env", "workload", "concurrency"])["trial"].transform("min")]
     agg = df.groupby(["env", "workload", "concurrency"], as_index=False).agg(
         trials=("trial", "count"),
         completed=("completed", "sum"),
@@ -253,10 +261,13 @@ def main():
                         help="Cost scenario to chart (falls back to the first one available)")
     parser.add_argument("--price", action="append", default=[], metavar="ENV=USD_PER_HOUR",
                         help="Override or add an hourly price (scenario 'custom')")
+    parser.add_argument("--all-trials", action="store_true",
+                        help="Average all trials (default: trial 1 only, the cold-cache one)")
     args = parser.parse_args()
 
     df = pd.read_csv(args.summary)
-    agg = aggregate(df)
+    agg = aggregate(df, first_trial_only=not args.all_trials)
+    aggregate(df).to_csv(os.path.join(os.path.dirname(args.out), "analysis_all_trials.csv"), index=False)
 
     with open(args.pricing) as f:
         pricing = json.load(f)
