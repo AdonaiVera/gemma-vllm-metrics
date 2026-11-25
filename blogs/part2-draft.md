@@ -28,8 +28,8 @@ these four facts, all measured:
    runs (67%) on the local GPU, the cloud GPU, the TPU and the CPU, with 100%
    valid tool calls and identical tool-call traces. Pick on speed, cost and effort, not quality.
 3. **All of them feel interactive for one user.** An agent task took 0.6 s
-   on the local GPU, 1.0 s on the cloud L4, 1.8 s on the TPU and 3.2 s on
-   the CPU.
+   on the local GPU, 1.0 s on the cloud L4, 1.8 s on the TPU 3.2 s on
+   the local CPU and 7.1 s on the 8-vCPU cloud CPU.
 4. **The cost difference is about utilization.** A cloud L4 VM costs about
    $0.94 an hour ($686 a month always on, $165 if on 8 hours a weekday). A
    TPU v6e-1 costs $2.70 an hour ($1,970 always on, $475 for 8 hours a
@@ -378,19 +378,35 @@ token of 36 seconds. It is a valid fallback for a single user and a
 non-starter for a shared endpoint.
 
 **Cloud CPU (the L4 VM's 8 vCPUs, GPU idle).** I ran the same llama.cpp
-setup on the cloud VM after the GPU work. The time ran out before the medium
-and long cells finished, so only the short cells exist, and the agent check
-was not run on it. The local machine's CPU has 24 threads; the cloud VM has 8.
+setup and the same reduced matrix on the cloud VM after the GPU work, plus the
+agent check. The local machine's CPU has 24 threads; the cloud VM has 8. 13
+cells, zero failures.
 
 | Workload | Concurrency | Output tok/s | p50 TTFT (ms) | p95 TTFT (ms) | p50 per-token (ms) | p95 end-to-end (ms) |
 |---|---|---|---|---|---|---|
 | short | 1 | 10.9 | 401 | 414 | 89.5 | 11,842 |
 | short | 4 | 20.9 | 842 | 1,359 | 194.5 | 26,732 |
 | short | 8 | 32.0 | 1,468 | 2,484 | 240.2 | 33,479 |
+| medium | 1 | 6.7 | 13,016 | 13,080 | 101.3 | 39,089 |
+| medium | 4 | 11.1 | 584 | 119,086 | 256.6 | 128,900 |
+| medium | 8 | 15.4 | 789 | 188,165 | 311.1 | 208,144 |
+| long | 1 | 4.8 | 0 | 53 | 211.9 | 110,228 |
 
-Short requests give 10.9 tokens/s at concurrency 1 and 32 at concurrency 8,
-about half of the local CPU. That is the right order of magnitude for 8
-vCPUs, and it confirms the point above: a CPU, local or rented, is a
+The cloud CPU is about half as fast as the local one: 10.9 tokens/s at
+concurrency 1 on short requests (21.6 locally), and 4.8 tokens/s on the long
+prompt (11.4 locally). An 8,192-token request takes about 110 seconds end to
+end at the 95th percentile. The agent check gave the same 67% (12 of 18) with
+100% valid tool calls, but each task took 7.1 s, against 3.2 s on the local
+CPU.
+
+One caution: I don't trust the time-to-first-token column for the medium
+concurrency 4 and 8 cells and the long cell on this VM. The median
+(0.6-0.8 s, and 0 ms for long) sits next to a 95th percentile of 53 to 188
+seconds, and the long cell's 212 ms per token only makes sense if the
+prefill time was counted as decoding. The most likely cause is the server
+streaming a first, empty chunk before the prompt was processed, and I didn't
+confirm it. Throughput and end-to-end latency don't depend on that, so use
+those. It confirms the point above: a CPU, local or rented, is a
 single-user fallback.
 
 ## Cost per million output tokens
@@ -513,7 +529,7 @@ OpenAI-compatible endpoint.
 - The agent check is a small proxy for the Voxel51 Agent, not the full
   application.
 - Prices change. The TPU price is from search snippets of Google's pages, and the L4 price is from third-party trackers.
-- The CPU leg used a reduced matrix, and the cloud CPU leg has only the short cells and no agent check.
+- The CPU legs used a reduced matrix (single trial for medium and long), and time to first token on the cloud CPU's medium and long cells is unreliable (see above).
 - The L4 is not the same card as the local RTX 4070 Ti, and I did not isolate why its 8K time to first token is better.
 - The monthly figures are arithmetic on hourly prices, not invoices.
 - The TPU ran with an fp8 KV cache chosen by the backend; the GPU did not.

@@ -231,3 +231,10 @@ bf16 weights that are no longer needed.
 - The CPU matrix on the VM's 8 vCPUs was too slow. Only the 9 short cells finished before I had to pull results at 22:15Z, and I tore the VM down at 22:20Z, 1 hour 49 minutes after it started (about $1.70 at $0.94/h). The agent check was not run on the cloud CPU.
 - Mistakes worth remembering: my progress monitor showed nothing because a `cut` in the filter buffered its output, so the first view of how far along the run was came late; and `pkill -f` matched my own shell again (exit 144) so the first teardown attempt did nothing. The VM was deleted a minute later with the plain teardown script.
 - Before publishing I moved the account and project names into an untracked `config.local.sh`.
+
+## Cloud CPU leg finished (2026-11-24)
+
+- The first L4 VM was deleted before the CPU matrix finished, so I rented a second one (asia-southeast1-a after many zones were out of stock) with a 3-hour hard stop and a 170-minute watchdog, and ran only the missing cells with `deploy/gpu/run_cpu_rest.sh`.
+- The medium cells and the long concurrency-1 cell finished, and the agent check ran (67%, 7.1 s per task). VM running time: about 1 hour 33 minutes.
+- Time to first token on the cloud CPU's medium c4/c8 and long cells looks wrong (median near 0 next to a p95 of minutes); I reported it as unreliable instead of guessing the cause.
+- This time I checked the run script's own result before reporting, after a status message that was out of date because the run had already finished.

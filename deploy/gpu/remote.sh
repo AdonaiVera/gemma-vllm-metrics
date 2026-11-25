@@ -16,7 +16,7 @@ cmd_setup() {
     sudo apt-get install -y -qq nvidia-container-toolkit && sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
     sudo docker run --rm --gpus all ubuntu:22.04 nvidia-smi -L; }
   sudo docker volume create docker_hf-cache >/dev/null
-  sudo docker pull vllm/vllm-openai:gemma4
+  [ "${SKIP_VLLM:-0}" = 1 ] || sudo docker pull vllm/vllm-openai:gemma4
   sudo docker pull ghcr.io/ggml-org/llama.cpp:server
   lscpu | grep -E 'Model name|^CPU\(s\)'
 }
@@ -44,9 +44,20 @@ cmd_cpu() {
   sudo chown -R "$USER" benchmarks/results
   sudo docker logs gemma-llama-cpu > serve_cpu.log 2>&1 || true
 }
+cmd_cpu_rest() {
+  sudo docker compose -f docker/compose.cpu.yml up -d
+  wait_ready 8081
+  m=(--env "$CPU_ENV" --base-url http://localhost:8081 --meta hardware="GCE g2-standard-8 vCPUs (Intel, no GPU used)" --meta engine=llama.cpp --meta precision=GGUF-Q8_0 --meta checkpoint="$MODEL")
+  r() { sudo env "PATH=$PATH" python3 benchmarks/run_benchmarks.py "${m[@]}" "$@"; }
+  r --only medium --trials 1
+  sudo chown -R "$USER" benchmarks/results
+  r --only long --concurrencies 1 --trials 1
+  sudo chown -R "$USER" benchmarks/results
+  # server stays up for the agent check from the laptop, then: remote.sh stopcpu
+}
 cmd_stopcpu() { sudo docker compose -f docker/compose.cpu.yml down; }
 case "${1:-}" in
-  setup|gpu|cpu) step "$1" ;;
+  setup|gpu|cpu|cpu_rest) step "$1" ;;
   stopgpu|stopcpu) "cmd_$1" ;;
   *) echo "usage: remote.sh setup|gpu|cpu|stopgpu|stopcpu" >&2; exit 2 ;;
 esac

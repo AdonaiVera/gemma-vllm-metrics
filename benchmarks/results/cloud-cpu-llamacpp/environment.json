@@ -1,7 +1,7 @@
 {
   "env": "cloud-cpu-llamacpp",
   "base_url": "http://localhost:8081",
-  "started_at": "2026-11-24T22:07:32+0000",
+  "started_at": "2026-11-24T23:33:52+0000",
   "client": "docker:vllm/vllm-openai:gemma4",
   "server_version": {
     "error": "HTTP Error 404: Not Found"
@@ -56,7 +56,7 @@
             "text"
           ]
         },
-        "created": 1795558052,
+        "created": 1795563232,
         "owned_by": "llamacpp",
         "meta": {
           "vocab_type": 2,

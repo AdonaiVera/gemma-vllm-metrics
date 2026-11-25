@@ -13,7 +13,7 @@ IMAGE_PROJECT="deeplearning-platform-release"
 DISK_GB=120
 VM_NAME="gemma-bench-l4"         # the ONLY thing these scripts create/delete
 LABELS="purpose=torchtpu-sprint-benchmark,owner=adonai,delete-after=2026-11-30"
-MAX_RUN="2h"                     # hard stop enforced by Google (deletes the VM)
+MAX_RUN="${MAX_RUN:-2h}"                     # hard stop enforced by Google (deletes the VM)
 WATCHDOG_MIN="${WATCHDOG_MIN:-110}"   # second layer: this machine deletes it too
 PRICE_PER_HOUR_ESTIMATE="1.00"   # only for the printed ceiling; verify before relying on it
 GPU_ENV_LABEL="cloud-gpu-l4-fp8"

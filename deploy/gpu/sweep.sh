@@ -10,7 +10,7 @@ for z in "$@"; do
   st=$(gcloud compute instances describe gemma-bench-l4 --project "$PROJECT" --zone "$z" --format='value(status)' 2>/dev/null)
   if [ "$st" = RUNNING ]; then
     echo "$z" > /tmp/gpu_zone; echo "CREATED and RUNNING in $z"
-    ZONE=$z WATCHDOG_MIN=110 setsid nohup "$HERE/watchdog.sh" > /tmp/gpu-watchdog.log 2>&1 < /dev/null &
+    ZONE=$z WATCHDOG_MIN="$WATCHDOG_MIN" setsid nohup "$HERE/watchdog.sh" > /tmp/gpu-watchdog.log 2>&1 < /dev/null &
     exit 0
   fi
   echo "no: $(grep -iE 'STOCKOUT|quota|not have enough|Invalid|ERROR' /tmp/gpu_create_$z.log | head -1 | cut -c1-160)"
